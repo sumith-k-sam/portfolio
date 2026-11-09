@@ -319,7 +319,7 @@ Nov  5 11:20:03 prod-srv cron[912]: (CRON) DEATH (can't write to /var/run/cron.p
       inc.diagnostics.forEach((diag) => {
         const btn = document.createElement('button');
         btn.className = 'sim-diag-btn';
-        btn.innerHTML = `<span style="color: var(--accent-green);">$</span> ${diag.cmd}`;
+        btn.innerHTML = `<span style="color: var(--accent-red);">$</span> ${diag.cmd}`;
         btn.addEventListener('click', () => {
           if (logViewer) {
             logViewer.textContent = `$ ${diag.cmd}\n${diag.output}\n\n--- original logs ---\n${inc.logText}`;

@@ -46,7 +46,7 @@
       pods: '28 Pods Running',
       latency: '32ms',
       status: '100% HEALTHY',
-      color: '#00ff66'
+      color: '#ff2a4b'
     },
     {
       id: 'eu-west-1',
@@ -58,7 +58,7 @@
       pods: '16 Build Workers',
       latency: '29ms',
       status: 'ACTIVE',
-      color: '#00ff66'
+      color: '#ff2a4b'
     },
     {
       id: 'ap-south-1',
@@ -94,7 +94,7 @@
       pods: '18 Pods Running',
       latency: '42ms',
       status: 'OPTIMIZED',
-      color: '#00ff66'
+      color: '#ff2a4b'
     },
     {
       id: 'sa-east-1',
@@ -113,12 +113,12 @@
   // Cloud Network Mesh Arcs (Data Pipelines)
   const MESH_ARCS = [
     { from: 'us-east-1', to: 'ap-south-1', speed: 0.004, alt: 0.38, color: '#ff7b00' },
-    { from: 'us-east-1', to: 'eu-west-1', speed: 0.005, alt: 0.28, color: '#00ff66' },
+    { from: 'us-east-1', to: 'eu-west-1', speed: 0.005, alt: 0.28, color: '#ff2a4b' },
     { from: 'us-east-1', to: 'us-west-2', speed: 0.006, alt: 0.22, color: '#ff7b00' },
     { from: 'eu-central-1', to: 'ap-south-1', speed: 0.005, alt: 0.32, color: '#00d4ff' },
     { from: 'ap-south-1', to: 'ap-southeast-1', speed: 0.007, alt: 0.24, color: '#ff7b00' },
     { from: 'ap-southeast-1', to: 'ap-northeast-1', speed: 0.006, alt: 0.26, color: '#00d4ff' },
-    { from: 'us-east-1', to: 'sa-east-1', speed: 0.005, alt: 0.30, color: '#00ff66' }
+    { from: 'us-east-1', to: 'sa-east-1', speed: 0.005, alt: 0.30, color: '#ff2a4b' }
   ];
 
   // Continent Polygon Definitions for Accurate Landmass Dots
@@ -276,25 +276,32 @@
     }
 
     resize() {
-      const rect = this.canvas.parentElement.getBoundingClientRect();
-      const dpr = window.devicePixelRatio || 1;
-      const size = Math.min(rect.width, 460);
+      const wrapper = this.canvas.parentElement;
+      if (!wrapper) return;
 
-      this.canvas.width = size * dpr;
-      this.canvas.height = size * dpr;
+      const wrapperWidth = wrapper.clientWidth || (wrapper.getBoundingClientRect ? wrapper.getBoundingClientRect().width : 320);
+      const dpr = Math.min(window.devicePixelRatio || 1, 2);
+      const size = Math.max(220, Math.min(Math.round(wrapperWidth), 420));
+
+      this.canvas.width = Math.round(size * dpr);
+      this.canvas.height = Math.round(size * dpr);
       this.canvas.style.width = `${size}px`;
       this.canvas.style.height = `${size}px`;
 
+      // Always reset transform before scaling to prevent scale stacking on resize
+      this.ctx.setTransform(1, 0, 0, 1, 0, 0);
       this.ctx.scale(dpr, dpr);
+
       this.width = size;
       this.height = size;
       this.centerX = size / 2;
       this.centerY = size / 2;
-      this.radius = Math.max(90, Math.min(150, size * 0.38));
+      this.radius = Math.max(88, Math.min(155, Math.round(size * 0.40)));
     }
 
     initEvents() {
       window.addEventListener('resize', () => this.resize());
+      window.addEventListener('orientationchange', () => setTimeout(() => this.resize(), 150));
 
       // Mouse drag handlers
       this.canvas.addEventListener('mousedown', (e) => {
@@ -396,10 +403,10 @@
           this.tooltip.style.left = `${found.screenX + 12}px`;
           this.tooltip.style.top = `${found.screenY - 18}px`;
           this.tooltip.innerHTML = `
-            <div class="tooltip-header"><span class="status-dot pulse-green"></span> ${found.hub.name}</div>
+            <div class="tooltip-header"><span class="status-dot pulse-red"></span> ${found.hub.name}</div>
             <div class="tooltip-row"><span>Role:</span> <strong>${found.hub.role}</strong></div>
             <div class="tooltip-row"><span>Pods:</span> <strong>${found.hub.pods}</strong></div>
-            <div class="tooltip-row"><span>Latency:</span> <span style="color: var(--accent-green);">${found.hub.latency}</span></div>
+            <div class="tooltip-row"><span>Latency:</span> <span style="color: var(--accent-red);">${found.hub.latency}</span></div>
             <div class="tooltip-row"><span>Cluster Status:</span> <span style="color: var(--accent-cyan);">${found.hub.status}</span></div>
           `;
         } else {
@@ -472,10 +479,10 @@
 
         ctx.clearRect(0, 0, this.width, this.height);
 
-        // 1. Atmosphere Background Halo & Glow
+        // 1. Atmosphere Background Halo & Glow (Cyber Red + Orange + Cyan)
         const glowGrad = ctx.createRadialGradient(cx, cy, R * 0.7, cx, cy, R * 1.35);
-        glowGrad.addColorStop(0, 'rgba(0, 255, 102, 0.08)');
-        glowGrad.addColorStop(0.4, 'rgba(255, 123, 0, 0.03)');
+        glowGrad.addColorStop(0, 'rgba(255, 42, 75, 0.12)');
+        glowGrad.addColorStop(0.4, 'rgba(255, 123, 0, 0.04)');
         glowGrad.addColorStop(0.7, 'rgba(0, 212, 255, 0.03)');
         glowGrad.addColorStop(1, 'rgba(0, 0, 0, 0)');
 
@@ -496,7 +503,7 @@
         ctx.fill();
 
         // 3. Globe Edge Atmosphere Rim
-        ctx.strokeStyle = 'rgba(0, 255, 102, 0.35)';
+        ctx.strokeStyle = 'rgba(255, 42, 75, 0.45)';
         ctx.lineWidth = 1.2;
         ctx.beginPath();
         ctx.arc(cx, cy, R, 0, Math.PI * 2);
@@ -530,9 +537,9 @@
 
           if (pt.isLand) {
             if (z > 0) {
-              // Front facing land dot
+              // Front facing land dot (Vibrant Cyber Red)
               const alpha = 0.35 + (z / R) * 0.65;
-              ctx.fillStyle = `rgba(0, 255, 102, ${alpha * 0.8})`;
+              ctx.fillStyle = `rgba(255, 42, 75, ${alpha * 0.88})`;
               ctx.beginPath();
               ctx.arc(x, y, 1.35, 0, Math.PI * 2);
               ctx.fill();
@@ -589,8 +596,8 @@
             const arcColor = arc.color || '#00d4ff';
             if (arcColor === '#ff7b00') {
               ctx.strokeStyle = 'rgba(255, 123, 0, 0.45)';
-            } else if (arcColor === '#00ff66') {
-              ctx.strokeStyle = 'rgba(0, 255, 102, 0.38)';
+            } else if (arcColor === '#ff2a4b') {
+              ctx.strokeStyle = 'rgba(255, 42, 75, 0.45)';
             } else {
               ctx.strokeStyle = 'rgba(0, 212, 255, 0.38)';
             }
@@ -682,14 +689,14 @@
           if (rot[2] > -10) {
             const x = cx + rot[0];
             const y = cy + rot[1];
-            const pingColor = (ping.hub && ping.hub.color) || '#00ff66';
+            const pingColor = (ping.hub && ping.hub.color) || '#ff2a4b';
 
             if (pingColor === '#ff7b00') {
               ctx.strokeStyle = `rgba(255, 123, 0, ${ping.alpha})`;
             } else if (pingColor === '#00d4ff') {
               ctx.strokeStyle = `rgba(0, 212, 255, ${ping.alpha})`;
             } else {
-              ctx.strokeStyle = `rgba(0, 255, 102, ${ping.alpha})`;
+              ctx.strokeStyle = `rgba(255, 42, 75, ${ping.alpha})`;
             }
 
             ctx.lineWidth = 1.5;

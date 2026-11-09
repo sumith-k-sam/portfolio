@@ -44,7 +44,7 @@
     const toast = document.createElement('div');
     toast.className = 'toast';
     toast.innerHTML = `
-      <span style="color: var(--accent-green); font-weight: bold;">[OK]</span>
+      <span style="color: var(--accent-red); font-weight: bold;">[OK]</span>
       <span>${message}</span>
     `;
 
@@ -77,6 +77,11 @@
       if (window.DevOpsAnimations && window.DevOpsAnimations.triggerHeroTyping) {
         window.DevOpsAnimations.triggerHeroTyping();
       }
+      setTimeout(() => {
+        if (window.devOpsGlobeInstance) {
+          window.devOpsGlobeInstance.resize();
+        }
+      }, 60);
       return;
     }
 
@@ -101,6 +106,11 @@
       if (window.DevOpsAnimations && window.DevOpsAnimations.triggerHeroTyping) {
         window.DevOpsAnimations.triggerHeroTyping();
       }
+      setTimeout(() => {
+        if (window.devOpsGlobeInstance) {
+          window.devOpsGlobeInstance.resize();
+        }
+      }, 60);
     }
 
     if (skipBtn) {
@@ -185,7 +195,7 @@
     audioBtn.addEventListener('click', () => {
       audioEnabled = !audioEnabled;
       audioBtn.innerHTML = audioEnabled ? '🔊 Audio: ON' : '🔇 Audio: OFF';
-      audioBtn.style.color = audioEnabled ? 'var(--accent-green)' : 'var(--text-muted)';
+      audioBtn.style.color = audioEnabled ? 'var(--accent-red)' : 'var(--text-muted)';
       if (audioEnabled) {
         playTone(660, 'sine', 0.15);
         showToast('Synthesizer sound enabled');
@@ -203,20 +213,65 @@
     const sections = document.querySelectorAll('section[id]');
     const mobileMenuBtn = document.getElementById('mobile-menu-toggle');
     const navMenu = document.getElementById('nav-menu');
+    const navBackdrop = document.getElementById('nav-backdrop');
+
+    function closeMobileMenu() {
+      if (navMenu) navMenu.classList.remove('open');
+      if (mobileMenuBtn) {
+        mobileMenuBtn.classList.remove('is-active');
+        mobileMenuBtn.setAttribute('aria-expanded', 'false');
+      }
+      if (navBackdrop) navBackdrop.classList.remove('active');
+      document.body.classList.remove('nav-drawer-open');
+    }
+
+    function toggleMobileMenu() {
+      if (!navMenu || !mobileMenuBtn) return;
+      const isOpen = navMenu.classList.toggle('open');
+      mobileMenuBtn.classList.toggle('is-active', isOpen);
+      mobileMenuBtn.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
+      if (navBackdrop) navBackdrop.classList.toggle('active', isOpen);
+      document.body.classList.toggle('nav-drawer-open', isOpen);
+      playTone(isOpen ? 620 : 440, 'sine', 0.05);
+    }
 
     // Mobile Hamburger
-    if (mobileMenuBtn && navMenu) {
-      mobileMenuBtn.addEventListener('click', () => {
-        navMenu.classList.toggle('open');
-      });
-
-      // Close on link click
-      navLinks.forEach((link) => {
-        link.addEventListener('click', () => {
-          navMenu.classList.remove('open');
-        });
-      });
+    if (mobileMenuBtn) {
+      mobileMenuBtn.addEventListener('click', toggleMobileMenu);
     }
+
+    if (navBackdrop) {
+      navBackdrop.addEventListener('click', closeMobileMenu);
+    }
+
+    // Close on link click
+    navLinks.forEach((link) => {
+      link.addEventListener('click', () => {
+        closeMobileMenu();
+      });
+    });
+
+    // Close on Escape key
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') {
+        closeMobileMenu();
+      }
+    });
+
+    // Global keyboard shortcut: press 't' or 'T' to launch terminal CLI (when not editing an input)
+    document.addEventListener('keydown', (e) => {
+      if ((e.key === 't' || e.key === 'T') && !e.ctrlKey && !e.metaKey && !e.altKey) {
+        const activeTag = document.activeElement ? document.activeElement.tagName.toLowerCase() : '';
+        if (activeTag !== 'input' && activeTag !== 'textarea') {
+          const termSection = document.getElementById('terminal');
+          if (termSection) {
+            termSection.scrollIntoView({ behavior: 'smooth' });
+            const cliInput = document.getElementById('cli-input');
+            if (cliInput) setTimeout(() => cliInput.focus(), 350);
+          }
+        }
+      }
+    });
 
     // Scroll Progress Bar & Back to top button
     const scrollProgressBar = document.getElementById('scroll-progress');
@@ -448,7 +503,7 @@ log "Backup finished successfully."`
         const doc = documentationData[docKey];
         if (!doc) return;
 
-        modalTitle.innerHTML = `<span style="color: var(--accent-green);">[DOCS]</span> ${doc.title}`;
+        modalTitle.innerHTML = `<span style="color: var(--accent-red);">[DOCS]</span> ${doc.title}`;
         modalBody.innerHTML = `
           <p style="color: var(--text-secondary); margin-bottom: 16px;">${doc.desc}</p>
           <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
@@ -456,7 +511,7 @@ log "Backup finished successfully."`
             <button id="doc-copy-btn" class="copy-btn" style="font-size: 0.75rem;">Copy Commands</button>
           </div>
           <div style="background: #04070c; border: 1px solid var(--border-subtle); border-radius: 4px; padding: 18px; max-height: 380px; overflow-y: auto;">
-            <pre style="color: #85e89d; font-size: 0.82rem; margin: 0; font-family: var(--font-mono); line-height: 1.5;">${escapeHtml(doc.code)}</pre>
+            <pre style="color: #ff91a4; font-size: 0.82rem; margin: 0; font-family: var(--font-mono); line-height: 1.5;">${escapeHtml(doc.code)}</pre>
           </div>
         `;
 

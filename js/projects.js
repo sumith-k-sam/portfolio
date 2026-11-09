@@ -470,11 +470,11 @@ fi`
     if (!modalOverlay || !modalTitle || !modalBody) return;
 
     modalTitle.innerHTML = `
-      <span style="color: var(--accent-green);">[PROJECT_SPEC]</span> ${proj.title}
+      <span style="color: var(--accent-red);">[PROJECT_SPEC]</span> ${proj.title}
     `;
 
     const highlightsHtml = proj.details.highlights
-      .map((h) => `<li style="margin-bottom: 6px; display: flex; gap: 8px;"><span style="color: var(--accent-green);">▹</span> ${h}</li>`)
+      .map((h) => `<li style="margin-bottom: 6px; display: flex; gap: 8px;"><span style="color: var(--accent-red);">▹</span> ${h}</li>`)
       .join('');
 
     const techBadges = proj.techStack
@@ -491,7 +491,7 @@ fi`
       <div style="margin-bottom: 24px;">
         <h4 style="color: var(--accent-cyan); font-size: 0.95rem; margin-bottom: 8px;">// ARCHITECTURE BLUEPRINT</h4>
         <div style="background: #06090e; border: 1px solid var(--border-subtle); border-radius: 4px; padding: 16px; overflow-x: auto;">
-          <pre style="color: var(--accent-green); font-size: 0.8rem; margin: 0; line-height: 1.5;">${proj.archAscii}</pre>
+          <pre style="color: var(--accent-red); font-size: 0.8rem; margin: 0; line-height: 1.5;">${proj.archAscii}</pre>
         </div>
       </div>
 
@@ -506,7 +506,7 @@ fi`
         <h4 style="color: var(--accent-cyan); font-size: 0.95rem; margin-bottom: 8px;">// REPOSITORIES & TECHNOLOGIES</h4>
         <div style="margin-bottom: 12px;">${techBadges}</div>
         <p style="font-size: 0.82rem; color: var(--text-muted);">
-          GitHub: <a href="${proj.githubUrl}" target="_blank" rel="noopener noreferrer" style="color: var(--accent-green);">${proj.githubUrl}</a>
+          GitHub: <a href="${proj.githubUrl}" target="_blank" rel="noopener noreferrer" style="color: var(--accent-red);">${proj.githubUrl}</a>
         </p>
       </div>
 

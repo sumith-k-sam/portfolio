@@ -1,5 +1,5 @@
 /* ==========================================================================
-   DevOps Portfolio - Responsive Media Queries
+   DevOps Portfolio - Responsive Media Queries (Xizt DevOps Theme)
    Author: Sumith K Sam
    ========================================================================== */
 
@@ -12,7 +12,7 @@
   }
 
   .hero-name {
-    font-size: 3.2rem;
+    font-size: 3.4rem;
   }
 
   .hero-bio {
@@ -33,7 +33,16 @@
   }
 
   .projects-grid {
-    grid-template-columns: repeat(2, 1fr);
+    grid-template-columns: repeat(auto-fill, minmax(min(100%, 340px), 1fr));
+  }
+
+  .nav-menu {
+    gap: 2px;
+  }
+
+  .nav-link {
+    font-size: 0.74rem;
+    padding: 4px 6px;
   }
 }
 
@@ -41,17 +50,153 @@
    Tablets / Small Laptops (Max 1024px)
    -------------------------------------------------------------------------- */
 @media (max-width: 1024px) {
+  :root {
+    --topbar-height: 32px;
+    --navbar-height: 56px;
+  }
+
   .section {
     padding: 72px 0;
   }
 
+  /* Navigation Drawer Transformation */
+  .mobile-menu-toggle {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .nav-menu {
+    position: fixed;
+    top: calc(var(--topbar-height) + var(--navbar-height));
+    right: 0;
+    width: min(380px, 100vw);
+    height: calc(100vh - var(--topbar-height) - var(--navbar-height));
+    background: rgba(10, 14, 22, 0.98);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border-left: 1px solid var(--border-subtle);
+    flex-direction: column;
+    align-items: stretch;
+    padding: 20px 20px 32px;
+    gap: 6px;
+    transform: translateX(100%);
+    transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+    overflow-y: auto;
+    z-index: 999;
+    box-shadow: -10px 0 30px rgba(0, 0, 0, 0.7);
+  }
+
+  .nav-menu.open {
+    transform: translateX(0);
+  }
+
+  .nav-drawer-header {
+    display: block;
+    padding-bottom: 14px;
+    margin-bottom: 8px;
+    border-bottom: 1px solid var(--border-subtle);
+  }
+
+  .drawer-title-row {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 4px;
+  }
+
+  .drawer-prompt-symbol {
+    color: var(--accent-red);
+    font-weight: 700;
+    font-family: var(--font-mono);
+  }
+
+  .drawer-heading {
+    font-family: var(--font-mono);
+    font-size: 0.85rem;
+    font-weight: 700;
+    color: var(--text-primary);
+    letter-spacing: 0.05em;
+  }
+
+  .drawer-status-pill {
+    font-size: 0.65rem;
+    font-weight: 700;
+    padding: 1px 6px;
+    background: var(--accent-red-dim);
+    color: var(--accent-red-bright);
+    border: 1px solid rgba(255, 42, 75, 0.3);
+    border-radius: var(--radius-xs);
+    margin-left: auto;
+  }
+
+  .drawer-sub {
+    font-size: 0.74rem;
+    color: var(--text-muted);
+  }
+
+  .nav-link {
+    font-size: 0.85rem;
+    width: 100%;
+    padding: 9px 12px;
+    border-radius: var(--radius-xs);
+    background: rgba(255, 255, 255, 0.02);
+    border: 1px solid rgba(255, 255, 255, 0.04);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .nav-link .nav-badge {
+    display: inline-block;
+    font-size: 0.68rem;
+    color: var(--text-muted);
+    margin-left: auto;
+    font-family: var(--font-mono);
+  }
+
+  .nav-drawer-footer {
+    display: block;
+    padding-top: 16px;
+    margin-top: 12px;
+    border-top: 1px solid var(--border-subtle);
+  }
+
+  .drawer-footer-actions {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 12px;
+  }
+
+  .drawer-footer-actions .drawer-btn {
+    flex: 1;
+    padding: 10px;
+    font-size: 0.78rem;
+    text-align: center;
+  }
+
+  .drawer-telemetry-status {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 0.7rem;
+    color: var(--text-muted);
+    font-family: var(--font-mono);
+    justify-content: center;
+  }
+
+  .nav-actions .nav-cli-btn {
+    display: none;
+  }
+
+  /* Grid Stackings */
   .hero-layout-grid {
     grid-template-columns: 1fr;
     gap: 36px;
   }
 
   .globe-card {
-    max-width: 560px;
+    max-width: 500px;
     margin: 0 auto;
   }
 
@@ -74,14 +219,9 @@
     gap: 24px;
   }
 
-  .contact-container-grid,
   .contact-cards-grid {
     grid-template-columns: 1fr;
-    gap: 18px;
-  }
-
-  .hero-name {
-    font-size: 2.2rem;
+    gap: 16px;
   }
 }
 
@@ -89,94 +229,47 @@
    Tablets & Mobile Landscape (Max 768px)
    -------------------------------------------------------------------------- */
 @media (max-width: 768px) {
-  :root {
-    --navbar-height: 58px;
-  }
-
-  /* Custom Cursor disable on touch/mobile devices */
+  /* Disable Custom Cursor on Touch */
   .custom-cursor-dot,
   .custom-cursor-ring {
     display: none !important;
   }
 
-  /* Mobile Navbar & Drawer */
-  .mobile-menu-toggle {
-    display: block;
-  }
-
-  .nav-menu {
-    position: fixed;
-    top: calc(var(--topbar-height) + var(--navbar-height));
-    left: 0;
-    width: 100%;
-    height: calc(100vh - var(--topbar-height) - var(--navbar-height));
-    background-color: var(--bg-terminal);
-    flex-direction: column;
-    align-items: flex-start;
-    padding: 32px 24px;
-    gap: 18px;
-    border-bottom: 1px solid var(--border-subtle);
-    transform: translateX(-100%);
-    transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
-    overflow-y: auto;
-    z-index: 999;
-  }
-
-  .nav-menu.open {
-    transform: translateX(0);
-  }
-
-  .nav-link {
-    font-size: 1rem;
-    width: 100%;
-    padding: 10px 0;
-    border-bottom: 1px dashed var(--border-subtle);
-  }
-
-  .nav-link.active::after {
-    left: 0;
-    right: auto;
-    width: 4px;
-    height: 100%;
-    top: 0;
-  }
-
-  .nav-actions .nav-cli-btn {
-    display: none;
-  }
-
-  /* Top Status Bar adjustments */
+  /* Top Status Bar: Prevent overflow */
   .top-status-bar {
     padding: 0 12px;
   }
 
-  .status-left .status-item:not(:first-child) {
+  .telem-host,
+  .telem-region,
+  .telem-sla,
+  .telem-clock {
+    display: none !important;
+  }
+
+  .status-toggle-btn .btn-label {
     display: none;
   }
 
-  /* Hero Section & 3D Globe */
+  .status-toggle-btn {
+    padding: 3px 6px;
+  }
+
+  /* Hero & Globe Responsiveness */
   .hero-terminal {
     margin-bottom: 24px;
   }
 
-  .globe-canvas-wrapper {
-    min-height: 330px;
-  }
-
-  #devops-globe-canvas {
-    max-width: 350px;
-  }
-
   .terminal-body {
-    padding: 20px;
+    padding: 18px 16px;
   }
 
   .hero-name {
-    font-size: 1.8rem;
+    font-size: 1.85rem;
   }
 
   .hero-bio {
-    font-size: 0.95rem;
+    font-size: 0.92rem;
   }
 
   .hero-actions {
@@ -193,43 +286,113 @@
     margin-left: 0;
     justify-content: center;
     width: 100%;
-    margin-top: 10px;
+    margin-top: 8px;
+  }
+
+  /* Xizt DevOps Metrics Strip (Tablet) */
+  .xizt-metrics-strip {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 12px;
+    padding: 14px;
+    margin-top: 20px;
+  }
+
+  .xizt-metric-item:nth-child(2) {
+    border-right: none;
+    padding-right: 0;
+  }
+
+  /* 3D Globe Canvas: Responsive containment */
+  .globe-card {
+    width: 100%;
+    max-width: 100%;
+  }
+
+  .globe-canvas-wrapper {
+    width: 100%;
+    max-width: 360px;
+    aspect-ratio: 1 / 1;
+    min-height: unset;
+    margin: 0 auto;
+  }
+
+  #devops-globe-canvas {
+    width: 100%;
+    max-width: 360px;
+    aspect-ratio: 1 / 1;
+    height: auto;
+  }
+
+  .globe-control-buttons {
+    flex-wrap: wrap;
+    gap: 6px;
+  }
+
+  .globe-mini-btn {
+    flex: 1 1 calc(50% - 6px);
+    font-size: 0.72rem;
+    padding: 6px 8px;
   }
 
   /* Projects */
   .projects-grid {
     grid-template-columns: 1fr;
+    width: 100%;
+  }
+
+  .project-card {
+    width: 100%;
+    min-width: 0;
+  }
+
+  .project-card-body {
+    padding: 20px 16px;
+  }
+
+  .project-arch-preview {
+    padding: 12px;
+    justify-content: flex-start;
+  }
+
+  .arch-ascii-box {
+    font-size: 0.62rem;
+    line-height: 1.35;
   }
 
   /* Experience Timeline */
   .experience-timeline {
-    padding-left: 24px;
+    padding-left: 20px;
   }
 
   .timeline-marker {
-    left: -20px;
+    left: -18px;
     width: 12px;
     height: 12px;
   }
 
   .timeline-card {
-    padding: 20px;
+    padding: 18px 16px;
   }
 
   /* Interactive Lab */
   .lab-canvas-area {
-    padding: 16px;
+    padding: 14px 10px;
     overflow-x: auto;
     -webkit-overflow-scrolling: touch;
+    width: 100%;
+    max-width: 100%;
   }
 
   .topology-svg {
-    min-width: 600px;
+    min-width: 520px;
+    width: 100%;
+    height: auto;
   }
 
   .lab-toolbar {
     flex-direction: column;
     align-items: flex-start;
+    padding: 12px 16px;
   }
 
   .lab-controls {
@@ -245,7 +408,7 @@
   /* Terminal */
   .cli-screen {
     padding: 16px;
-    min-height: 340px;
+    min-height: 320px;
   }
 
   .cli-input-line {
@@ -261,13 +424,9 @@
     padding: 16px;
   }
 
-  .sim-nav-tabs {
-    padding-bottom: 4px;
-  }
-
   .sim-tab-btn {
-    padding: 10px 14px;
-    font-size: 0.75rem;
+    padding: 8px 12px;
+    font-size: 0.72rem;
   }
 
   /* Modals */
@@ -276,7 +435,7 @@
   }
 
   .modal-window {
-    max-height: 92vh;
+    max-height: 90vh;
   }
 
   .modal-header {
@@ -284,7 +443,7 @@
   }
 
   .modal-body {
-    padding: 18px;
+    padding: 18px 16px;
   }
 
   /* Footer */
@@ -296,39 +455,61 @@
 }
 
 /* --------------------------------------------------------------------------
-   Small Mobile Screens (Max 480px / 375px)
+   Small Mobile Screens (Max 480px / 360px)
    -------------------------------------------------------------------------- */
 @media (max-width: 480px) {
   .container {
-    padding: 0 16px;
+    padding: 0 14px;
   }
 
   .section {
-    padding: 56px 0;
+    padding: 52px 0;
   }
 
   .section-title {
-    font-size: 1.5rem;
+    font-size: 1.45rem;
   }
 
   .hero-name {
     font-size: 1.6rem;
   }
 
+  .xizt-metrics-strip {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 10px;
+    padding: 10px 12px;
+  }
+
+  .xizt-metric-val {
+    font-size: 1.05rem;
+  }
+
+  .xizt-metric-lbl {
+    font-size: 0.62rem;
+  }
+
   .globe-canvas-wrapper {
-    min-height: 290px;
+    max-width: 280px;
   }
 
   #devops-globe-canvas {
-    max-width: 290px;
+    max-width: 280px;
   }
 
   .globe-stats-row {
-    gap: 8px;
+    gap: 4px;
   }
 
   .globe-stat-item .stat-num {
-    font-size: 0.85rem;
+    font-size: 0.82rem;
+  }
+
+  .globe-stat-item .stat-lbl {
+    font-size: 0.65rem;
+  }
+
+  .globe-mini-btn {
+    flex: 1 1 100%;
   }
 
   .about-meta-grid {
@@ -337,7 +518,7 @@
   }
 
   .spec-key {
-    min-width: 100px;
+    min-width: 90px;
   }
 
   .skills-grid {
@@ -355,6 +536,7 @@
   .contact-method-card {
     flex-direction: column;
     align-items: flex-start;
+    padding: 16px;
   }
 
   .contact-method-card .copy-btn {
@@ -363,20 +545,19 @@
   }
 
   .contact-form-card {
-    padding: 20px 16px;
+    padding: 20px 14px;
   }
 
   .boot-terminal-box {
-    margin: 12px;
+    margin: 10px;
   }
 
   .boot-log-container {
-    height: 250px;
-    font-size: 0.75rem;
+    height: 220px;
+    font-size: 0.72rem;
   }
 
   .cli-pill-commands {
     display: none;
   }
 }
-

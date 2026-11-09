@@ -163,7 +163,7 @@
     if (titleEl) titleEl.textContent = node.name;
     if (badgeEl) {
       badgeEl.textContent = node.badge;
-      badgeEl.className = 'inspector-badge ' + (node.status === 'CRITICAL' ? 'pulse-red' : 'pulse-green');
+      badgeEl.className = 'inspector-badge ' + (node.status === 'CRITICAL' ? 'pulse-orange' : 'pulse-red');
     }
     if (descEl) descEl.textContent = node.desc;
 

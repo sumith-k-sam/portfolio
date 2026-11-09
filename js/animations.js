@@ -31,7 +31,7 @@
         vx: (Math.random() - 0.5) * 0.4,
         vy: (Math.random() - 0.5) * 0.4,
         radius: Math.random() * 1.5 + 1,
-        color: Math.random() > 0.4 ? 'rgba(0, 255, 102, ' : 'rgba(0, 212, 255, ',
+        color: Math.random() > 0.45 ? 'rgba(255, 42, 75, ' : 'rgba(255, 123, 0, ',
         alpha: Math.random() * 0.5 + 0.15,
       });
     }
@@ -82,7 +82,7 @@
           const dist = Math.sqrt(dx * dx + dy * dy);
 
           if (dist < 120) {
-            ctx.strokeStyle = `rgba(0, 255, 102, ${0.12 * (1 - dist / 120)})`;
+            ctx.strokeStyle = `rgba(255, 42, 75, ${0.12 * (1 - dist / 120)})`;
             ctx.beginPath();
             ctx.moveTo(p.x, p.y);
             ctx.lineTo(p2.x, p2.y);

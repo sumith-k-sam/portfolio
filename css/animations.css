@@ -17,27 +17,28 @@
   display: inline-block;
   width: 9px;
   height: 1.15em;
-  background-color: var(--accent-green, #00ff66);
+  background-color: var(--accent-red, #ff2a4b);
   vertical-align: text-bottom;
   animation: cursorBlink 1s infinite;
-  box-shadow: 0 0 8px var(--accent-green, #00ff66);
+  box-shadow: 0 0 8px var(--accent-red, #ff2a4b);
 }
 
 /* Status Indicator Pulses */
-@keyframes pulseGreen {
+@keyframes pulseRed {
   0% {
-    box-shadow: 0 0 0 0 rgba(0, 255, 102, 0.7);
+    box-shadow: 0 0 0 0 rgba(255, 42, 75, 0.7);
   }
   70% {
-    box-shadow: 0 0 0 10px rgba(0, 255, 102, 0);
+    box-shadow: 0 0 0 10px rgba(255, 42, 75, 0);
   }
   100% {
-    box-shadow: 0 0 0 0 rgba(0, 255, 102, 0);
+    box-shadow: 0 0 0 0 rgba(255, 42, 75, 0);
   }
 }
 
+.pulse-red,
 .pulse-green {
-  animation: pulseGreen 2s infinite;
+  animation: pulseRed 2s infinite;
 }
 
 @keyframes pulseCyan {
@@ -150,7 +151,7 @@
 }
 
 .shimmer-active {
-  background: linear-gradient(90deg, rgba(0,255,102,0.1) 0%, rgba(0,255,102,0.4) 50%, rgba(0,255,102,0.1) 100%);
+  background: linear-gradient(90deg, rgba(255,42,75,0.1) 0%, rgba(255,42,75,0.4) 50%, rgba(255,42,75,0.1) 100%);
   background-size: 200% 100%;
   animation: shimmer 2s infinite;
 }
@@ -203,7 +204,7 @@
   }
   50% {
     opacity: 1;
-    filter: drop-shadow(0 0 10px var(--accent-green, #00ff66));
+    filter: drop-shadow(0 0 10px var(--accent-red, #ff2a4b));
   }
   100% {
     opacity: 0.8;
