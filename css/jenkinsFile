@@ -1,0 +1,50 @@
+pipeline {
+    agent any
+
+    environment {
+        APP_NAME = "MySampleApp"
+    }
+
+    stages {
+        stage('checkout') {
+            steps {
+                echo "Passed"
+            }
+        }
+        stage('Build') {
+            steps {
+                echo "Building ${APP_NAME}..."
+                // Example shell command for Linux/macOS:
+                // sh 'mvn clean package'
+                // Example batch command for Windows:
+                // bat 'mvn clean package'
+            }
+        }
+
+        stage('Test') {
+            steps {
+                echo 'Running automated tests...'
+            }
+        }
+
+        stage('Deploy') {
+            steps {
+                script {
+                    echo 'Deploying to Production...'
+                }
+            }
+        }
+    }
+
+    post {
+        always {
+            echo 'Pipeline execution finished.'
+        }
+        success {
+            echo 'Build and deployment succeeded!'
+        }
+        failure {
+            echo 'Pipeline failed. Check the console logs.'
+        }
+    }
+}

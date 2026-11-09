@@ -1,0 +1,1580 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sumith K Sam | DevOps Engineer & Infrastructure Automation</title>
+  <meta name="description" content="Terminal-inspired interactive portfolio of Sumith K Sam, a DevOps Engineer specializing in AWS Cloud, Kubernetes, CI/CD automation, Terraform IaC, and observability.">
+  <meta name="keywords" content="DevOps Engineer, Cloud Architect, Kubernetes, Docker, AWS, Terraform, Jenkins, Prometheus, Grafana, Linux, CI/CD">
+  <meta name="author" content="Sumith K Sam">
+
+  <!-- Open Graph / Meta -->
+  <meta property="og:title" content="Sumith K Sam | DevOps Engineer Portfolio">
+  <meta property="og:description" content="Explore an interactive Linux terminal, DevOps lab, troubleshooting simulator, and infrastructure architecture.">
+  <meta property="og:type" content="website">
+
+  <!-- Favicon SVG -->
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%2300ff66'><polyline points='4 17 10 11 4 5'/><line x1='12' y1='19' x2='20' y2='19'/></svg>">
+
+  <!-- Google Fonts Preconnect & Import -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500;600;700&family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+  <!-- Core Stylesheets -->
+  <link rel="stylesheet" href="css/animations.css">
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/responsive.css">
+</head>
+<body>
+
+  <!-- Background Cyber Grid Canvas -->
+  <canvas id="bg-canvas"></canvas>
+
+  <!-- Custom Cursor Elements (Desktop only) -->
+  <div class="custom-cursor-dot" aria-hidden="true"></div>
+  <div class="custom-cursor-ring" aria-hidden="true"></div>
+
+  <!-- Toast Notification Hub -->
+  <div id="toast-container" aria-live="polite"></div>
+
+  <!-- --------------------------------------------------------------------------
+       Section A: Boot / Loading Screen
+       -------------------------------------------------------------------------- -->
+  <aside id="boot-screen" aria-label="System Boot Sequence">
+    <div class="boot-terminal-box">
+      <div class="boot-header">
+        <div class="boot-window-dots">
+          <span class="dot dot-red"></span>
+          <span class="dot dot-yellow"></span>
+          <span class="dot dot-green"></span>
+        </div>
+        <span>systemd - v255.4 (prod-kernel-6.8.0-devops)</span>
+        <span>tty1</span>
+      </div>
+      <div class="boot-log-container" id="boot-log-container">
+        <!-- Lines injected dynamically by js/main.js -->
+      </div>
+      <div class="boot-footer">
+        <div class="boot-progress-track">
+          <div class="boot-progress-bar" id="boot-progress-bar"></div>
+        </div>
+        <div class="boot-controls">
+          <span>Loading environment modules...</span>
+          <button id="boot-skip-btn" class="boot-skip-btn">
+            <span>Skip Boot Sequence</span>
+            <kbd style="padding: 1px 4px; background: rgba(0,0,0,0.4); border-radius: 2px;">ESC</kbd>
+          </button>
+        </div>
+      </div>
+    </div>
+  </aside>
+
+  <!-- --------------------------------------------------------------------------
+       Top DevOps System Status Bar
+       -------------------------------------------------------------------------- -->
+  <header class="top-status-bar" role="banner">
+    <div class="status-left">
+      <div class="status-item">
+        <span class="status-badge healthy">
+          <span class="status-dot pulse-green"></span>
+          <span>CLUSTER: HEALTHY 100%</span>
+        </span>
+      </div>
+      <div class="status-item">
+        <span>HOST:</span>
+        <strong style="color: var(--accent-cyan);">sumith-k8s-prod-01</strong>
+      </div>
+      <div class="status-item">
+        <span>REGION:</span>
+        <strong style="color: var(--accent-orange);">us-east-1 (N. Virginia)</strong>
+      </div>
+      <div class="status-item">
+        <span>UPTIME:</span>
+        <strong style="color: var(--accent-green);">99.999% SLA</strong>
+      </div>
+    </div>
+
+    <div class="status-right">
+      <div class="status-item">
+        <span id="live-utc-clock">UTC 13:20:00</span>
+      </div>
+      <button id="audio-toggle-btn" class="audio-toggle-btn" title="Toggle Synthesizer Sound Effects">
+        🔇 Audio: OFF
+      </button>
+      <button id="theme-toggle-btn" class="theme-toggle-btn" title="Toggle Light / Dark Mode">
+        ☀️ Light
+      </button>
+    </div>
+  </header>
+
+  <!-- Scroll Progress Indicator -->
+  <div id="scroll-progress" aria-hidden="true"></div>
+
+  <!-- --------------------------------------------------------------------------
+       Main Sticky Navigation
+       -------------------------------------------------------------------------- -->
+  <nav class="main-navbar" aria-label="Main Navigation">
+    <div class="container nav-container">
+      <a href="#home" class="nav-brand" aria-label="Sumith K Sam Homepage">
+        <span class="brand-prompt">root@sumith:~$</span>
+        <span>./portfolio.sh</span>
+        <span class="cursor-blink"></span>
+      </a>
+
+      <ul class="nav-menu" id="nav-menu">
+        <li><a href="#home" class="nav-link active"><span class="nav-num">01.</span>/home</a></li>
+        <li><a href="#about" class="nav-link"><span class="nav-num">02.</span>/about</a></li>
+        <li><a href="#skills" class="nav-link"><span class="nav-num">03.</span>/skills</a></li>
+        <li><a href="#experience" class="nav-link"><span class="nav-num">04.</span>/experience</a></li>
+        <li><a href="#projects" class="nav-link"><span class="nav-num">05.</span>/projects</a></li>
+        <li><a href="#lab" class="nav-link"><span class="nav-num">06.</span>/lab</a></li>
+        <li><a href="#terminal" class="nav-link"><span class="nav-num">07.</span>/terminal</a></li>
+        <li><a href="#troubleshooting" class="nav-link"><span class="nav-num">08.</span>/troubleshoot</a></li>
+        <li><a href="#docs" class="nav-link"><span class="nav-num">09.</span>/docs</a></li>
+        <li><a href="#contact" class="nav-link"><span class="nav-num">10.</span>/contact</a></li>
+      </ul>
+
+      <div class="nav-actions">
+        <a href="#terminal" class="nav-cli-btn" title="Launch Interactive Terminal">
+          <span>&gt;_</span> CLI
+        </a>
+        <button id="mobile-menu-toggle" class="mobile-menu-toggle" aria-label="Toggle navigation menu">
+          &#9776;
+        </button>
+      </div>
+    </div>
+  </nav>
+
+  <main>
+    <!-- --------------------------------------------------------------------------
+         Section B: Hero Section – Terminal Introduction & Interactive 3D Globe
+         -------------------------------------------------------------------------- -->
+    <section id="home" class="hero-section">
+      <div class="container">
+        <div class="hero-layout-grid">
+          <!-- Left Column: Terminal Introduction & Controls -->
+          <div class="hero-content-col">
+            <div class="hero-terminal scanline-effect fade-in-up">
+              <div class="terminal-header">
+                <div class="terminal-header-left">
+                  <div class="boot-window-dots">
+                    <span class="dot dot-red"></span>
+                    <span class="dot dot-yellow"></span>
+                    <span class="dot dot-green"></span>
+                  </div>
+                  <span class="terminal-title">root@sumith-infra:~ (bash - 80x24)</span>
+                </div>
+                <div class="terminal-header-right">
+                  <span>PID: 1042</span>
+                  <span>ENC: UTF-8</span>
+                  <span>SHELL: /bin/bash</span>
+                </div>
+              </div>
+
+              <div class="terminal-body">
+                <!-- Command 1: whoami -->
+                <div class="command-line">
+                  <span class="prompt">root@sumith:~$</span>
+                  <span id="hero-cmd-1" class="typed-text"></span>
+                </div>
+
+                <div id="hero-output-1" class="command-output" style="display: none;">
+                  <h1 class="hero-name">Sumith K Sam</h1>
+                  <div class="hero-badge-tag">DevOps Engineer | Cloud & Infrastructure Automation</div>
+                </div>
+
+                <!-- Command 2: cat introduction.txt -->
+                <div class="command-line" id="hero-line-2" style="display: none;">
+                  <span class="prompt">root@sumith:~$</span>
+                  <span id="hero-cmd-2" class="typed-text"></span>
+                </div>
+
+                <div id="hero-output-2" class="command-output" style="display: none;">
+                  <p class="hero-bio">
+                    I build, automate, deploy and monitor scalable cloud infrastructure. Backed by 2.5 years of professional Python &amp; Django software development, I specialize in GitOps, Kubernetes containerization, Infrastructure as Code (Terraform &amp; Ansible), and shift-left DevSecOps automation.
+                  </p>
+                </div>
+
+                <!-- Command 3: systemctl status -->
+                <div class="command-line" id="hero-line-3" style="display: none;">
+                  <span class="prompt">root@sumith:~$</span>
+                  <span id="hero-cmd-3" class="typed-text"></span>
+                </div>
+
+                <div id="hero-output-3" class="command-output" style="display: none;">
+                  <div class="service-status-line">
+                    <span class="service-pill active">● systemd: active (running)</span>
+                    <span class="service-pill pill-orange">Cloud: AWS us-east-1</span>
+                    <span class="service-pill">K8s: 14/14 Pods Healthy</span>
+                    <span class="service-pill">CI/CD: Automated Webhooks</span>
+                    <span class="service-pill pill-orange">IaC: Terraform Managed</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Hero Actions -->
+            <div class="hero-actions fade-in-up">
+              <a href="assets/resume/resume.pdf" download="Sumith_K_Sam_DevOps_Resume.pdf" class="btn btn-primary" id="hero-download-resume-btn">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+                Download Resume (PDF)
+              </a>
+
+              <a href="#projects" class="btn btn-secondary">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="12 2 2 7 12 12 22 7 12 2"/><polyline points="2 17 12 22 22 17"/><polyline points="2 12 12 17 22 12"/></svg>
+                View Projects
+              </a>
+
+              <a href="#terminal" class="btn btn-outline">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="4 17 10 11 4 5"/><line x1="12" y1="19" x2="20" y2="19"/></svg>
+                Launch Interactive CLI
+              </a>
+
+              <div class="social-links">
+                <a href="https://github.com/sumithksam" target="_blank" rel="noopener noreferrer" class="social-link-btn" title="GitHub Profile">
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"/></svg>
+                </a>
+                <a href="https://linkedin.com/in/sumithksam" target="_blank" rel="noopener noreferrer" class="social-link-btn" title="LinkedIn Profile">
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/></svg>
+                </a>
+                <a href="mailto:sumithksam.devops@example.com" class="social-link-btn" title="Send Direct Email">
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+                </a>
+              </div>
+            </div>
+          </div>
+
+          <!-- Right Column: Interactive GitHub-Style DevOps Globe -->
+          <div class="hero-globe-col fade-in-up">
+            <div class="globe-card">
+              <div class="globe-card-header">
+                <div class="globe-header-left">
+                  <span class="status-dot pulse-green"></span>
+                  <span class="globe-title">GLOBAL CLOUD MESH // 3D TOPOLOGY</span>
+                </div>
+                <div class="globe-header-right">
+                  <span class="globe-latency-badge" id="globe-latency-indicator">PINGS: 18ms</span>
+                </div>
+              </div>
+
+              <div class="globe-canvas-wrapper" id="globe-wrapper">
+                <canvas id="devops-globe-canvas" aria-label="Interactive 3D DevOps Globe"></canvas>
+                <div id="globe-tooltip" class="globe-hud-tooltip"></div>
+              </div>
+
+              <div class="globe-card-footer">
+                <div class="globe-stats-row">
+                  <div class="globe-stat-item">
+                    <span class="stat-num stat-orange" id="globe-active-regions">8</span>
+                    <span class="stat-lbl">AWS Regions</span>
+                  </div>
+                  <div class="globe-stat-item">
+                    <span class="stat-num">99.999%</span>
+                    <span class="stat-lbl">Multi-AZ SLA</span>
+                  </div>
+                  <div class="globe-stat-item">
+                    <span class="stat-num" id="globe-active-arcs">7</span>
+                    <span class="stat-lbl">Mesh Arcs</span>
+                  </div>
+                </div>
+                <div class="globe-control-buttons">
+                  <button id="globe-toggle-rotate" class="globe-mini-btn" title="Toggle Auto-Rotation">
+                    <span>⏸</span> Pause
+                  </button>
+                  <button id="globe-focus-home" class="globe-mini-btn btn-orange" title="Center on ap-south-1 (Mumbai)">
+                    <span>⊕</span> ap-south-1
+                  </button>
+                  <button id="globe-ping-btn" class="globe-mini-btn" title="Simulate Global Ping">
+                    <span>⚡</span> Ping
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <a href="#about" class="scroll-indicator" aria-label="Scroll down to About section">
+          <span>[ SCROLL_DOWN \/ ]</span>
+        </a>
+      </div>
+    </section>
+
+    <!-- --------------------------------------------------------------------------
+         Section C: About Me
+         -------------------------------------------------------------------------- -->
+    <section id="about" class="section">
+      <div class="container">
+        <div class="section-header fade-in-up">
+          <div class="section-prompt">
+            <span class="user-host">root@sumith:~$</span>
+            <span class="cmd">cat about.txt</span>
+          </div>
+          <h2 class="section-title">02. About Me</h2>
+          <p class="section-subtitle">
+            Infrastructure engineer dedicated to eliminating manual deployment friction, improving mean time to resolution (MTTR), and architecting self-healing cloud solutions.
+          </p>
+        </div>
+
+        <div class="about-grid">
+          <div class="about-card fade-in-up">
+            <h3 class="about-intro-title">// PROFESSIONAL IDENTITY</h3>
+            <p class="about-text">
+              I am a DevOps Engineer with a proven foundation of 2.5 years as a Python/Django software developer before specializing in end-to-end cloud infrastructure, GitOps, Kubernetes container orchestration, and DevSecOps automation.
+            </p>
+            <p class="about-text">
+              Having built production backend services from the ground up, I understand the real-world developer lifecycle. I bridge the gap between software development and stable infrastructure operations through declarative code (Terraform, Ansible), automated CI/CD security gating (TruffleHog, Semgrep, Trivy, Kyverno), and self-healing cloud workloads.
+            </p>
+
+            <div class="about-meta-grid">
+              <div class="meta-item">
+                <span class="meta-label">Current Role:</span>
+                <span class="meta-value">DevOps Engineer | Cloud &amp; Infrastructure</span>
+              </div>
+              <div class="meta-item">
+                <span class="meta-label">Total Experience:</span>
+                <span class="meta-value">4+ Years (2.5 Yrs Django + DevOps till date)</span>
+              </div>
+              <div class="meta-item">
+                <span class="meta-label">Primary Location:</span>
+                <span class="meta-value">Pathanamthitta, Kerala, India (Open to Remote)</span>
+              </div>
+              <div class="meta-item">
+                <span class="meta-label">Core Specialization:</span>
+                <span class="meta-value">DevOps, Kubernetes, Terraform, AWS, Python/Django</span>
+              </div>
+              <div class="meta-item" style="grid-column: span 2;">
+                <span class="meta-label">Professional Interests:</span>
+                <span class="meta-value">GitOps (ArgoCD), DevSecOps Shift-Left Security, Kubernetes Clustering, IaC Automation, Cloud Reliability</span>
+              </div>
+              <div class="meta-item" style="grid-column: span 2;">
+                <span class="meta-label">Career Objective:</span>
+                <span class="meta-value">To architect, automate, and secure resilient, scalable cloud infrastructure and deployment pipelines that empower development teams to ship code reliably.</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Neofetch System Specs Card -->
+          <div class="neofetch-card fade-in-up">
+            <div class="neofetch-header">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="3" width="20" height="14" rx="2" ry="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>
+              <span>SYSTEM_TELEMETRY // NEOFETCH</span>
+            </div>
+
+            <div class="neofetch-specs">
+              <div class="spec-line"><span class="spec-key">Engineer:</span><span class="spec-val">Sumith K Sam</span></div>
+              <div class="spec-line"><span class="spec-key">Current Role:</span><span class="spec-val">DevOps Engineer (ex-Django Dev)</span></div>
+              <div class="spec-line"><span class="spec-key">Education:</span><span class="spec-val">MCA (KTU 7.99) | B.Sc CS (MGU 6.88)</span></div>
+              <div class="spec-line"><span class="spec-key">Host OS:</span><span class="spec-val">Ubuntu 24.04 LTS (x86_64)</span></div>
+              <div class="spec-line"><span class="spec-key">Cloud:</span><span class="spec-val text-orange">Amazon Web Services (AWS)</span></div>
+              <div class="spec-line"><span class="spec-key">Containers:</span><span class="spec-val">Docker Engine + Kubernetes</span></div>
+              <div class="spec-line"><span class="spec-key">IaC Tool:</span><span class="spec-val text-orange">Terraform, Ansible</span></div>
+              <div class="spec-line"><span class="spec-key">CI/CD Engine:</span><span class="spec-val">Jenkins, ArgoCD, GitHub Actions</span></div>
+              <div class="spec-line"><span class="spec-key">DevSecOps:</span><span class="spec-val">Trivy, Semgrep, TruffleHog, Kyverno</span></div>
+              <div class="spec-line"><span class="spec-key">Shell / Lang:</span><span class="spec-val">Bash, Python (Django/FastAPI)</span></div>
+              <div class="spec-line"><span class="spec-key">Location:</span><span class="spec-val">Pathanamthitta, Kerala, India</span></div>
+            </div>
+
+            <div class="neofetch-color-blocks" aria-hidden="true">
+              <span class="color-block" style="background: #ef4444;"></span>
+              <span class="color-block" style="background: #ff7b00;"></span>
+              <span class="color-block" style="background: #f59e0b;"></span>
+              <span class="color-block" style="background: #10b981;"></span>
+              <span class="color-block" style="background: #00d4ff;"></span>
+              <span class="color-block" style="background: #a855f7;"></span>
+              <span class="color-block" style="background: #ffffff;"></span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- --------------------------------------------------------------------------
+         Section D: Technical Skills – DevOps Stack
+         -------------------------------------------------------------------------- -->
+    <section id="skills" class="section">
+      <div class="container">
+        <div class="section-header fade-in-up">
+          <div class="section-prompt">
+            <span class="user-host">root@sumith:~$</span>
+            <span class="cmd">ls -la /usr/local/skills/</span>
+          </div>
+          <h2 class="section-title">03. Technical Skills – DevOps Stack</h2>
+          <p class="section-subtitle">
+            Comprehensive breakdown of my production technology stack across 8 key DevOps domains. Focused on architectural reliability, automation, and observability.
+          </p>
+        </div>
+
+        <div class="skills-grid">
+          <!-- 1. Cloud Platforms -->
+          <div class="skill-category-card card-orange fade-in-up">
+            <div class="category-header">
+              <div class="category-icon">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 14.5c2.5 2 7.5 3 11 1 2-.7 3.5-2.2 4-3.5"/><path d="M19 12l-2 2 3 .5"/><path d="M6 9.5c0-2 1.5-3.5 3.5-3.5 1.5 0 2.8.9 3.3 2.2.5-1.3 1.8-2.2 3.3-2.2 2 0 3.5 1.5 3.5 3.5 0 .5-.1 1-.3 1.5"/></svg>
+              </div>
+              <h3 class="category-title">1. Cloud Platforms</h3>
+            </div>
+            <div class="skill-items-list">
+              <span class="skill-pill pill-orange">AWS</span>
+              <span class="skill-pill pill-orange">EC2</span>
+              <span class="skill-pill pill-orange">S3</span>
+              <span class="skill-pill pill-orange">IAM</span>
+              <span class="skill-pill pill-orange">VPC</span>
+              <span class="skill-pill pill-orange">Lambda</span>
+              <span class="skill-pill pill-orange">ALB</span>
+              <span class="skill-pill pill-orange">CloudWatch</span>
+            </div>
+          </div>
+
+          <!-- 2. Containerization & Orchestration -->
+          <div class="skill-category-card fade-in-up">
+            <div class="category-header">
+              <div class="category-icon">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M12 2v4"/><path d="M12 18v4"/><path d="M3.5 7l3.5 2"/><path d="M17 15l3.5 2"/><path d="M3.5 17l3.5-2"/><path d="M17 9l3.5-2"/></svg>
+              </div>
+              <h3 class="category-title">2. Containers & K8s</h3>
+            </div>
+            <div class="skill-items-list">
+              <span class="skill-pill">Docker</span>
+              <span class="skill-pill">Kubernetes</span>
+              <span class="skill-pill">Minikube</span>
+              <span class="skill-pill">Docker Compose</span>
+              <span class="skill-pill">Helm</span>
+              <span class="skill-pill">HPA Autoscaling</span>
+            </div>
+          </div>
+
+          <!-- 3. CI/CD -->
+          <div class="skill-category-card fade-in-up">
+            <div class="category-header">
+              <div class="category-icon">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="7" r="4"/><path d="M6 21v-2a4 4 0 0 1 4-4h4a4 4 0 0 1 4 4v2"/><path d="M10 11h4"/></svg>
+              </div>
+              <h3 class="category-title">3. CI/CD Automation</h3>
+            </div>
+            <div class="skill-items-list">
+              <span class="skill-pill">Jenkins</span>
+              <span class="skill-pill">ArgoCD (GitOps)</span>
+              <span class="skill-pill">GitHub Actions</span>
+              <span class="skill-pill">GitLab CI/CD</span>
+              <span class="skill-pill">SonarQube</span>
+              <span class="skill-pill">Declarative Pipelines</span>
+            </div>
+          </div>
+
+          <!-- 4. Infrastructure as Code -->
+          <div class="skill-category-card fade-in-up">
+            <div class="category-header">
+              <div class="category-icon">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="3,3 10,7 10,15 3,11"/><polygon points="11,7 18,3 18,11 11,15"/><polygon points="11,16 18,12 18,20 11,24"/></svg>
+              </div>
+              <h3 class="category-title">4. Infrastructure as Code</h3>
+            </div>
+            <div class="skill-items-list">
+              <span class="skill-pill pill-orange">Terraform</span>
+              <span class="skill-pill pill-orange">Ansible</span>
+              <span class="skill-pill">Remote S3 Backend</span>
+              <span class="skill-pill">DynamoDB Locks</span>
+              <span class="skill-pill">IaC Modules</span>
+            </div>
+          </div>
+
+          <!-- 5. Monitoring & Logging -->
+          <div class="skill-category-card fade-in-up">
+            <div class="category-header">
+              <div class="category-icon">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 3"/><path d="M8 12c0-2.2 1.8-4 4-4"/></svg>
+              </div>
+              <h3 class="category-title">5. Monitoring & Logging</h3>
+            </div>
+            <div class="skill-items-list">
+              <span class="skill-pill">Prometheus</span>
+              <span class="skill-pill">Grafana</span>
+              <span class="skill-pill">ELK Stack</span>
+              <span class="skill-pill">Alertmanager</span>
+              <span class="skill-pill">Node Exporter</span>
+              <span class="skill-pill">cAdvisor</span>
+            </div>
+          </div>
+
+          <!-- 6. Operating Systems -->
+          <div class="skill-category-card fade-in-up">
+            <div class="category-header">
+              <div class="category-icon">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><ellipse cx="12" cy="13" rx="7" ry="8"/><circle cx="9" cy="9" r="1"/><circle cx="15" cy="9" r="1"/><path d="M10 12c1 1 3 1 4 0"/></svg>
+              </div>
+              <h3 class="category-title">6. Operating Systems</h3>
+            </div>
+            <div class="skill-items-list">
+              <span class="skill-pill">Linux</span>
+              <span class="skill-pill">Ubuntu Server</span>
+              <span class="skill-pill">Debian</span>
+              <span class="skill-pill">RHEL / CentOS</span>
+              <span class="skill-pill">Windows Server</span>
+            </div>
+          </div>
+
+          <!-- 7. Programming & Backend -->
+          <div class="skill-category-card fade-in-up">
+            <div class="category-header">
+              <div class="category-icon">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg>
+              </div>
+              <h3 class="category-title">7. Backend &amp; Scripting</h3>
+            </div>
+            <div class="skill-items-list">
+              <span class="skill-pill">Python</span>
+              <span class="skill-pill">Django (2.5 Yrs)</span>
+              <span class="skill-pill">FastAPI</span>
+              <span class="skill-pill">REST APIs</span>
+              <span class="skill-pill">Bash / Shell</span>
+              <span class="skill-pill">JSON / YAML</span>
+              <span class="skill-pill">Boto3 SDK</span>
+            </div>
+          </div>
+
+          <!-- 8. Version Control -->
+          <div class="skill-category-card fade-in-up">
+            <div class="category-header">
+              <div class="category-icon">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="18" cy="18" r="3"/><circle cx="6" cy="6" r="3"/><circle cx="18" cy="6" r="3"/><path d="M6 9v12"/><path d="M9 6h6"/></svg>
+              </div>
+              <h3 class="category-title">8. Version Control & GitOps</h3>
+            </div>
+            <div class="skill-items-list">
+              <span class="skill-pill">Git</span>
+              <span class="skill-pill">GitHub</span>
+              <span class="skill-pill">Bitbucket</span>
+              <span class="skill-pill">Git Branching Strategies</span>
+              <span class="skill-pill">Pull Request Audits</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- --------------------------------------------------------------------------
+         Section E: Professional Experience (Timeline)
+         -------------------------------------------------------------------------- -->
+    <section id="experience" class="section">
+      <div class="container">
+        <div class="section-header fade-in-up">
+          <div class="section-prompt">
+            <span class="user-host">root@sumith:~$</span>
+            <span class="cmd">git log --graph --oneline experience/</span>
+          </div>
+          <h2 class="section-title">04. Professional Experience</h2>
+          <p class="section-subtitle">
+            Vertical career timeline tracing infrastructure management, cloud automation projects, and deployment engineering roles.
+          </p>
+        </div>
+
+        <div class="experience-timeline">
+          <!-- Role 1: DevOps Engineer (Current) -->
+          <div class="timeline-item fade-in-up">
+            <div class="timeline-marker"></div>
+            <div class="timeline-card">
+              <div class="timeline-card-header">
+                <div>
+                  <h3 class="role-title">DevOps Engineer</h3>
+                  <div class="company-name">Zoople Technologies PVT LTD</div>
+                </div>
+                <span class="duration-badge">2024 - Present (Current Role)</span>
+              </div>
+              <p class="timeline-desc">
+                Leading cloud infrastructure automation, GitOps deployment pipelines, Kubernetes cluster operations, DevSecOps compliance, and proactive monitoring systems.
+              </p>
+              <ul class="timeline-responsibilities">
+                <li>Architected automated GitOps continuous delivery pipelines deploying containerized microservices to Kubernetes clusters using Jenkins and ArgoCD.</li>
+                <li>Engineered Infrastructure as Code (IaC) workflows with Terraform and Ansible for automated AWS EC2 instance provisioning and server configuration.</li>
+                <li>Implemented shift-left DevSecOps security across Jenkins CI: TruffleHog (secrets), Semgrep (SAST), Trivy (CVE container scanning), Kyverno (K8s admission policies), and OWASP ZAP (DAST).</li>
+                <li>Automated EC2 instance resource monitoring and health telemetry via scheduled defensive shell scripting and cron daemons with proactive alerting.</li>
+                <li>Designed automated CI/CD pipelines containerizing Django web applications with Docker, SonarQube quality gates, and ArgoCD deployment syncs.</li>
+              </ul>
+              <div class="timeline-tech-stack">
+                <span class="tech-tag tag-orange">AWS</span>
+                <span class="tech-tag tag-orange">Terraform</span>
+                <span class="tech-tag tag-orange">Ansible</span>
+                <span class="tech-tag">Kubernetes</span>
+                <span class="tech-tag">Jenkins</span>
+                <span class="tech-tag">ArgoCD</span>
+                <span class="tech-tag">Docker</span>
+                <span class="tech-tag">DevSecOps</span>
+                <span class="tech-tag">Python</span>
+                <span class="tech-tag">Bash</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Role 2: Python Developer -->
+          <div class="timeline-item fade-in-up">
+            <div class="timeline-marker"></div>
+            <div class="timeline-card">
+              <div class="timeline-card-header">
+                <div>
+                  <h3 class="role-title">Python Developer</h3>
+                  <div class="company-name">Zoople Technologies PVT LTD</div>
+                </div>
+                <span class="duration-badge">October 2022 - 2024 (~2 Years)</span>
+              </div>
+              <p class="timeline-desc">
+                Worked as a web application developer engineering scalable backend services, relational database architectures, and RESTful APIs using the Django framework (Python).
+              </p>
+              <ul class="timeline-responsibilities">
+                <li>Working as a web application developer using Django framework (Python).</li>
+                <li>Work with development teams and product managers to ideate software solutions.</li>
+                <li>Develop and manage well-functioning databases and applications, write effective APIs.</li>
+                <li>Strong analytical and problem-solving skills, excellent verbal and written communication skills.</li>
+                <li>Integrate user-facing components built by front-end developers with the logic of the backend.</li>
+                <li>Translate client requirements into properly structured server-side logic and optimized database models.</li>
+              </ul>
+              <div class="timeline-tech-stack">
+                <span class="tech-tag">Python</span>
+                <span class="tech-tag">Django</span>
+                <span class="tech-tag">REST APIs</span>
+                <span class="tech-tag">PostgreSQL</span>
+                <span class="tech-tag">Docker</span>
+                <span class="tech-tag">Git</span>
+                <span class="tech-tag">Linux</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Role 3: Software Developer -->
+          <div class="timeline-item fade-in-up">
+            <div class="timeline-marker"></div>
+            <div class="timeline-card">
+              <div class="timeline-card-header">
+                <div>
+                  <h3 class="role-title">Software Developer</h3>
+                  <div class="company-name">NextGen Pro Innovations and edupark PVT LTD</div>
+                </div>
+                <span class="duration-badge">March 2022 - October 2022 (~8 Months)</span>
+              </div>
+              <p class="timeline-desc">
+                Web application developer developing software in Django framework (Python), handling backend feature implementations, API integrations, and code maintenance.
+              </p>
+              <ul class="timeline-responsibilities">
+                <li>Worked as a web application developer building responsive client web applications.</li>
+                <li>Ability to develop software in Django framework (Python) adhering to modular clean-architecture guidelines.</li>
+                <li>Assisted in database schema design, model migrations, and view logic for web applications.</li>
+                <li>Wrote reusable backend components, unit tests, and collaborated on version control via Git.</li>
+              </ul>
+              <div class="timeline-tech-stack">
+                <span class="tech-tag">Python</span>
+                <span class="tech-tag">Django</span>
+                <span class="tech-tag">MySQL/PostgreSQL</span>
+                <span class="tech-tag">Git</span>
+                <span class="tech-tag">Linux</span>
+                <span class="tech-tag">HTML/CSS</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- --------------------------------------------------------------------------
+         Section F: DevOps Projects
+         -------------------------------------------------------------------------- -->
+    <section id="projects" class="section">
+      <div class="container">
+        <div class="section-header fade-in-up">
+          <div class="section-prompt">
+            <span class="user-host">root@sumith:~$</span>
+            <span class="cmd">find /opt/projects -maxdepth 1 -type d</span>
+          </div>
+          <h2 class="section-title">05. DevOps Projects</h2>
+          <p class="section-subtitle">
+            Engineered real-world infrastructure projects demonstrating end-to-end automation, containerization, Infrastructure as Code, and observability. Click 'Details &amp; Specs' for architectural blueprints and code.
+          </p>
+        </div>
+
+        <div class="projects-grid" id="projects-grid-container">
+          <!-- 1. GitOps & DevSecOps Platform for ML Inference Microservices -->
+          <div class="project-card fade-in-up" data-category="gitops">
+            <div class="project-arch-preview">
+              <pre class="arch-ascii-box">[Developer Push] ──&gt; [GitHub / GitLab]
+                           │ (Webhook)
+                   [Jenkins CI Pipeline]
+            ┌──────────────┼──────────────┐
+     [Bandit SAST]   [Safety Audit]  [Docker Build]
+            └──────────────┼──────────────┘
+                           │ (Push Image &amp; Tag Manifest)
+                   [GitOps Config Repo]
+                           │ (Sync)
+                      [ArgoCD]
+                           │ (Rolling Deploy)
+              [Kubernetes Cluster (Pods)]
+                           │
+                 [FastAPI ML Inference]</pre>
+            </div>
+            <div class="project-card-body">
+              <h3 class="project-card-title">GitOps &amp; DevSecOps Platform for ML Inference Microservices</h3>
+              <p class="project-card-desc">Built an automated GitOps delivery pipeline deploying containerized FastAPI ML microservices to a Kubernetes cluster. Integrated Bandit and Safety into Jenkins CI for automated vulnerability scanning, with ArgoCD automating rolling deployments upon manifest updates.</p>
+              <div class="project-tags">
+                <span class="project-tag">FastAPI</span>
+                <span class="project-tag">Docker</span>
+                <span class="project-tag">Kubernetes</span>
+                <span class="project-tag">Jenkins</span>
+                <span class="project-tag">ArgoCD</span>
+                <span class="project-tag">MLflow</span>
+                <span class="project-tag">Python</span>
+                <span class="project-tag">Linux</span>
+              </div>
+              <div class="project-card-footer">
+                <div class="project-links">
+                  <a href="https://github.com/sumithksam/gitops-devsecops-ml-platform" target="_blank" rel="noopener noreferrer" class="project-link-icon" title="View Source Code">
+                    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"/></svg>
+                    Code
+                  </a>
+                </div>
+                <button class="view-details-btn" data-project-id="gitops-ml-inference">
+                  Details &amp; Specs [→]
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <!-- 2. Infrastructure Automation using Terraform and Ansible -->
+          <div class="project-card fade-in-up" data-category="iac">
+            <div class="project-arch-preview">
+              <pre class="arch-ascii-box">[Terraform CLI]
+       │ (terraform apply)
+[AWS Cloud Provider]
+       │
+┌──────┴───────────────────────────┐
+│ [VPC &amp; Security Groups]          │
+│   └──&gt; [AWS EC2 Linux Instances] │
+└──────────────────────────────────┘
+       │ (Dynamic Inventory via SSH)
+[Ansible Control Node]
+       │ (playbook.yml)
+┌──────┴───────────────────────────┐
+│ ├── Baseline Security &amp; Packages │
+│ ├── Nginx Web Server Setup       │
+│ └── Systemd Daemon Hardening     │
+└──────────────────────────────────┘</pre>
+            </div>
+            <div class="project-card-body">
+              <h3 class="project-card-title">Infrastructure Automation using Terraform and Ansible</h3>
+              <p class="project-card-desc">Automated cloud infrastructure deployment and server configuration on AWS using Terraform and Ansible. Provisioned EC2 instances with Terraform and configured them using Ansible playbooks, demonstrating an Infrastructure as Code (IaC) workflow.</p>
+              <div class="project-tags">
+                <span class="project-tag tag-orange">Terraform</span>
+                <span class="project-tag tag-orange">Ansible</span>
+                <span class="project-tag tag-orange">AWS EC2</span>
+                <span class="project-tag">Linux</span>
+                <span class="project-tag">YAML</span>
+                <span class="project-tag">SSH</span>
+              </div>
+              <div class="project-card-footer">
+                <div class="project-links">
+                  <a href="https://github.com/sumithksam/terraform-ansible-aws-automation" target="_blank" rel="noopener noreferrer" class="project-link-icon" title="View Source Code">
+                    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"/></svg>
+                    Code
+                  </a>
+                </div>
+                <button class="view-details-btn" data-project-id="terraform-ansible-infra">
+                  Details &amp; Specs [→]
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <!-- 3. CI/CD Pipeline for Django Application -->
+          <div class="project-card fade-in-up" data-category="cicd">
+            <div class="project-arch-preview">
+              <pre class="arch-ascii-box">[Django Dev] ──&gt; [Git / GitHub Repo]
+                         │
+                 [Jenkins CI Server]
+         ┌───────────────┼───────────────┐
+  [pytest / Unit]  [SonarQube Quality] [Docker Build]
+         └───────────────┼───────────────┘
+                         │ (Push to Docker Hub)
+              [Docker Image Registry]
+                         │
+             [ArgoCD / GitOps Sync]
+                         │
+             [AWS EC2 Host (Docker / K8s)]
+                         │
+         [Gunicorn / Django Application]</pre>
+            </div>
+            <div class="project-card-body">
+              <h3 class="project-card-title">CI/CD Pipeline for Django Application</h3>
+              <p class="project-card-desc">Designed and implemented an automated CI/CD pipeline for a Django application using Jenkins. Containerized the application with Docker and deployed it on AWS EC2. Integrated SonarQube for automated code quality analysis. Implemented GitOps-based deployment using Argo CD.</p>
+              <div class="project-tags">
+                <span class="project-tag">Jenkins</span>
+                <span class="project-tag">Docker</span>
+                <span class="project-tag">Git</span>
+                <span class="project-tag">GitHub</span>
+                <span class="project-tag tag-orange">AWS EC2</span>
+                <span class="project-tag">SonarQube</span>
+                <span class="project-tag">Argo CD</span>
+                <span class="project-tag">Python</span>
+                <span class="project-tag">Django</span>
+              </div>
+              <div class="project-card-footer">
+                <div class="project-links">
+                  <a href="https://github.com/sumithksam/django-cicd-jenkins-argocd" target="_blank" rel="noopener noreferrer" class="project-link-icon" title="View Source Code">
+                    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"/></svg>
+                    Code
+                  </a>
+                </div>
+                <button class="view-details-btn" data-project-id="django-cicd-pipeline">
+                  Details &amp; Specs [→]
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <!-- 4. AWS Cloud Monitoring Automation using Shell Scripting and Cron -->
+          <div class="project-card fade-in-up" data-category="monitoring">
+            <div class="project-arch-preview">
+              <pre class="arch-ascii-box">[Cron Daemon (* * * * *)]
+           │
+   [monitor_ec2.sh] ──&gt; [AWS CLI / EC2 Metadata]
+           │
+ ┌─────────┼───────────────────────────┐
+ │ CPU Utilization (top/mpstat)        │
+ │ Memory Saturation (free -m)         │
+ │ Disk Usage &amp; Inodes (df -h)         │
+ │ Network Sockets (ss / netstat)      │
+ └─────────┬───────────────────────────┘
+           │
+   [Threshold Evaluation]
+ ┌─────────┴─────────┐
+ │ Normal            │ Alert Exceeded (&gt;80%)
+ ▼                   ▼
+[/var/log/sys.log]  [AWS CloudWatch / SNS Email]</pre>
+            </div>
+            <div class="project-card-body">
+              <h3 class="project-card-title">AWS Cloud Monitoring Automation using Shell Scripting and Cron</h3>
+              <p class="project-card-desc">Developed a shell script to automate the monitoring of AWS EC2 instance resources and system health. Configured the script as a cron job to execute at scheduled intervals, collect system metrics, log resource utilization, and support proactive infrastructure monitoring without manual intervention.</p>
+              <div class="project-tags">
+                <span class="project-tag tag-orange">AWS EC2</span>
+                <span class="project-tag">Linux</span>
+                <span class="project-tag">Bash</span>
+                <span class="project-tag">Cron</span>
+                <span class="project-tag tag-orange">AWS CLI</span>
+              </div>
+              <div class="project-card-footer">
+                <div class="project-links">
+                  <a href="https://github.com/sumithksam/aws-ec2-monitoring-shell-script" target="_blank" rel="noopener noreferrer" class="project-link-icon" title="View Source Code">
+                    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"/></svg>
+                    Code
+                  </a>
+                </div>
+                <button class="view-details-btn" data-project-id="aws-monitoring-automation">
+                  Details &amp; Specs [→]
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <!-- 5. Hardened Microservice & DevSecOps CI/CD Pipeline -->
+          <div class="project-card fade-in-up" data-category="security">
+            <div class="project-arch-preview">
+              <pre class="arch-ascii-box">[Git Commit]
+      │
+[Jenkins DooD Controller]
+      │
+┌─────┴───────────────────────────────────────────────────────┐
+│ 1. [TruffleHog] ────&gt; Secrets Detection (API Keys/Tokens)   │
+│ 2. [Semgrep] ───────&gt; SAST Code Inspection (OWASP Top 10)   │
+│ 3. [Docker Build] ──&gt; Container Image Packaging             │
+│ 4. [Trivy Scan] ────&gt; Container Vulnerability / CVE Gating  │
+│ 5. [Kyverno CLI] ───&gt; Kubernetes Admission Policy Check     │
+│ 6. [OWASP ZAP] ─────&gt; DAST Live Dynamic Penetration Testing │
+└─────┬───────────────────────────────────────────────────────┘
+      │ (All Security Gates Passed)
+[Gated Production Deploy] ──&gt; [Kubernetes Secure Cluster]</pre>
+            </div>
+            <div class="project-card-body">
+              <h3 class="project-card-title">Hardened Microservice &amp; DevSecOps CI/CD Pipeline</h3>
+              <p class="project-card-desc">Architected an automated DevSecOps CI/CD pipeline in Jenkins utilizing Docker-out-of-Docker architecture to enforce shift-left security across code, IaC, and runtime layers. Integrated TruffleHog for secrets detection, Semgrep for OWASP Top 10 SAST analysis, and Trivy alongside Kyverno CLI for Kubernetes admission policy validation. Automated live dynamic vulnerability scanning (DAST) via OWASP ZAP over isolated Docker networks and gated container deployments against unpatched CVEs using Trivy Image scanning.</p>
+              <div class="project-tags">
+                <span class="project-tag">Jenkins</span>
+                <span class="project-tag">Docker</span>
+                <span class="project-tag">Kubernetes</span>
+                <span class="project-tag">OWASP ZAP</span>
+                <span class="project-tag">Trivy</span>
+                <span class="project-tag">Semgrep</span>
+                <span class="project-tag">TruffleHog</span>
+                <span class="project-tag">Kyverno</span>
+                <span class="project-tag">Git</span>
+              </div>
+              <div class="project-card-footer">
+                <div class="project-links">
+                  <a href="https://github.com/sumithksam/devsecops-hardened-microservice-pipeline" target="_blank" rel="noopener noreferrer" class="project-link-icon" title="View Source Code">
+                    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"/></svg>
+                    Code
+                  </a>
+                </div>
+                <button class="view-details-btn" data-project-id="devsecops-hardened-pipeline">
+                  Details &amp; Specs [→]
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- --------------------------------------------------------------------------
+         Section G: Interactive Infrastructure / Network Lab
+         -------------------------------------------------------------------------- -->
+    <section id="lab" class="section">
+      <div class="container">
+        <div class="section-header fade-in-up">
+          <div class="section-prompt">
+            <span class="user-host">root@sumith:~$</span>
+            <span class="cmd">terraform graph | dot -Tsvg</span>
+          </div>
+          <h2 class="section-title">06. Interactive Infrastructure / Network Lab</h2>
+          <p class="section-subtitle">
+            Interactive deployment topology simulation modeled after enterprise cloud monitoring dashboards. Click components to inspect telemetry, run simulated pipeline deploys, or test autoscaling responses.
+          </p>
+        </div>
+
+        <div class="lab-dashboard fade-in-up">
+          <div class="lab-toolbar">
+            <div class="lab-toolbar-left">
+              <span class="lab-title">
+                <span class="status-dot pulse-green"></span>
+                <span>PIPELINE_TOPOLOGY // PROD-US-EAST-1</span>
+              </span>
+            </div>
+            <div class="lab-controls">
+              <button id="lab-btn-deploy" class="lab-btn lab-btn-deploy">
+                <span>&#9654;</span> Trigger Deploy Simulation
+              </button>
+              <button id="lab-btn-spike" class="lab-btn lab-btn-secondary btn-orange">
+                <span>&#9889;</span> Simulate Traffic Spike
+              </button>
+              <button id="lab-btn-reset" class="lab-btn lab-btn-secondary">
+                <span>&#8634;</span> Reset Architecture
+              </button>
+            </div>
+          </div>
+
+          <div class="lab-content">
+            <!-- Canvas / SVG Topology -->
+            <div class="lab-canvas-area">
+              <svg class="topology-svg" viewBox="0 0 740 380" xmlns="http://www.w3.org/2000/svg">
+                <!-- Background Connection Pipeline Grid -->
+                <defs>
+                  <linearGradient id="pipeGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+                    <stop offset="0%" stop-color="#00ff66" />
+                    <stop offset="35%" stop-color="#ff7b00" />
+                    <stop offset="70%" stop-color="#00d4ff" />
+                    <stop offset="100%" stop-color="#10b981" />
+                  </linearGradient>
+                  <filter id="nodeGlow" x="-20%" y="-20%" width="140%" height="140%">
+                    <feGaussianBlur stdDeviation="3" result="blur" />
+                    <feComposite in="SourceGraphic" in2="blur" operator="over" />
+                  </filter>
+                </defs>
+
+                <!-- Connection Lines -->
+                <!-- Developer to GitHub -->
+                <path d="M 85 80 L 195 80" stroke="#1e2d42" stroke-width="3" />
+                <path d="M 85 80 L 195 80" stroke="url(#pipeGrad)" stroke-width="2" class="animated-wire" />
+
+                <!-- GitHub to Jenkins -->
+                <path d="M 295 80 L 405 80" stroke="#1e2d42" stroke-width="3" />
+                <path d="M 295 80 L 405 80" stroke="url(#pipeGrad)" stroke-width="2" class="animated-wire" />
+
+                <!-- Jenkins to Docker -->
+                <path d="M 505 80 L 615 80" stroke="#1e2d42" stroke-width="3" />
+                <path d="M 505 80 L 615 80" stroke="url(#pipeGrad)" stroke-width="2" class="animated-wire" />
+
+                <!-- Docker down to K8s -->
+                <path d="M 665 120 L 665 240 L 505 240" stroke="#1e2d42" stroke-width="3" fill="none" />
+                <path d="M 665 120 L 665 240 L 505 240" stroke="url(#pipeGrad)" stroke-width="2" fill="none" class="animated-wire" />
+
+                <!-- K8s to AWS -->
+                <path d="M 405 240 L 295 240" stroke="#1e2d42" stroke-width="3" />
+                <path d="M 405 240 L 295 240" stroke="url(#pipeGrad)" stroke-width="2" class="animated-wire" />
+
+                <!-- AWS to Prometheus -->
+                <path d="M 195 240 L 85 240" stroke="#1e2d42" stroke-width="3" />
+                <path d="M 195 240 L 85 240" stroke="url(#pipeGrad)" stroke-width="2" class="animated-wire" />
+
+                <!-- Animated Packet Dot -->
+                <circle id="anim-packet-dot" cx="100" cy="80" r="5" fill="#00ff66" filter="url(#nodeGlow)" opacity="0.8">
+                  <animate attributeName="r" values="4;7;4" dur="1.5s" repeatCount="indefinite" />
+                </circle>
+
+                <!-- TOPOLOGY NODES -->
+                <!-- 1. Developer -->
+                <g class="topo-node" data-node-id="developer" transform="translate(10, 40)">
+                  <rect width="100" height="80" rx="8" fill="#0d1420" stroke="#25354c" stroke-width="1.5" />
+                  <circle cx="20" cy="20" r="4" fill="#00ff66" />
+                  <text x="32" y="24" fill="#8b949e" font-size="10" font-family="monospace">STAGE 1</text>
+                  <text x="16" y="48" fill="#e6edf3" font-size="12" font-weight="bold" font-family="monospace">Developer</text>
+                  <text x="16" y="66" fill="#00d4ff" font-size="10" font-family="monospace">Git Commit</text>
+                </g>
+
+                <!-- 2. GitHub -->
+                <g class="topo-node" data-node-id="github" transform="translate(195, 40)">
+                  <rect width="100" height="80" rx="8" fill="#0d1420" stroke="#25354c" stroke-width="1.5" />
+                  <circle cx="20" cy="20" r="4" fill="#00ff66" />
+                  <text x="32" y="24" fill="#8b949e" font-size="10" font-family="monospace">STAGE 2</text>
+                  <text x="16" y="48" fill="#e6edf3" font-size="12" font-weight="bold" font-family="monospace">GitHub</text>
+                  <text x="16" y="66" fill="#00d4ff" font-size="10" font-family="monospace">Webhooks</text>
+                </g>
+
+                <!-- 3. Jenkins -->
+                <g class="topo-node active" data-node-id="jenkins" transform="translate(405, 40)">
+                  <rect width="100" height="80" rx="8" fill="#0d1420" stroke="#25354c" stroke-width="1.5" />
+                  <circle cx="20" cy="20" r="4" fill="#00ff66" />
+                  <text x="32" y="24" fill="#8b949e" font-size="10" font-family="monospace">STAGE 3</text>
+                  <text x="16" y="48" fill="#e6edf3" font-size="12" font-weight="bold" font-family="monospace">Jenkins CI</text>
+                  <text x="16" y="66" fill="#00ff66" font-size="10" font-family="monospace">Test &amp; Build</text>
+                </g>
+
+                <!-- 4. Docker -->
+                <g class="topo-node" data-node-id="docker" transform="translate(615, 40)">
+                  <rect width="100" height="80" rx="8" fill="#0d1420" stroke="#25354c" stroke-width="1.5" />
+                  <circle cx="20" cy="20" r="4" fill="#00ff66" />
+                  <text x="32" y="24" fill="#8b949e" font-size="10" font-family="monospace">STAGE 4</text>
+                  <text x="16" y="48" fill="#e6edf3" font-size="12" font-weight="bold" font-family="monospace">Docker</text>
+                  <text x="16" y="66" fill="#00d4ff" font-size="10" font-family="monospace">Image Push</text>
+                </g>
+
+                <!-- 5. Kubernetes -->
+                <g class="topo-node" data-node-id="kubernetes" transform="translate(405, 200)">
+                  <rect width="100" height="80" rx="8" fill="#0d1420" stroke="#25354c" stroke-width="1.5" />
+                  <circle cx="20" cy="20" r="4" fill="#00ff66" />
+                  <text x="32" y="24" fill="#8b949e" font-size="10" font-family="monospace">STAGE 5</text>
+                  <text x="16" y="48" fill="#e6edf3" font-size="12" font-weight="bold" font-family="monospace">Kubernetes</text>
+                  <text x="16" y="66" fill="#00ff66" font-size="10" font-family="monospace">HPA Clusters</text>
+                </g>
+
+                <!-- 6. AWS Cloud -->
+                <g class="topo-node" data-node-id="aws" transform="translate(195, 200)">
+                  <rect width="100" height="80" rx="8" fill="#140f09" stroke="#ff7b00" stroke-width="1.5" />
+                  <circle cx="20" cy="20" r="4" fill="#ff7b00" />
+                  <text x="32" y="24" fill="#ff9100" font-size="10" font-family="monospace">STAGE 6</text>
+                  <text x="16" y="48" fill="#ff7b00" font-size="12" font-weight="bold" font-family="monospace">AWS Cloud</text>
+                  <text x="16" y="66" fill="#ffaa44" font-size="10" font-family="monospace">VPC / ALB</text>
+                </g>
+
+                <!-- 7. Prometheus & Grafana -->
+                <g class="topo-node" data-node-id="prometheus" transform="translate(10, 200)">
+                  <rect width="100" height="80" rx="8" fill="#0d1420" stroke="#25354c" stroke-width="1.5" />
+                  <circle cx="20" cy="20" r="4" fill="#00ff66" />
+                  <text x="32" y="24" fill="#8b949e" font-size="10" font-family="monospace">STAGE 7</text>
+                  <text x="16" y="48" fill="#e6edf3" font-size="12" font-weight="bold" font-family="monospace">Prometheus</text>
+                  <text x="16" y="66" fill="#f59e0b" font-size="10" font-family="monospace">Grafana Ops</text>
+                </g>
+              </svg>
+            </div>
+
+            <!-- Inspector Panel -->
+            <div class="lab-inspector-panel">
+              <div class="inspector-header">
+                <div class="inspector-title">
+                  <span id="inspector-node-title">Jenkins CI/CD Engine</span>
+                  <span id="inspector-node-badge" class="inspector-badge pulse-green">AUTOMATION</span>
+                </div>
+              </div>
+              <div class="inspector-body">
+                <p id="inspector-node-desc" style="margin-bottom: 16px; font-size: 0.85rem;">
+                  Distributed CI/CD controller orchestrating automated multi-branch builds, automated unit/integration tests, and container vulnerability scans.
+                </p>
+                <div id="inspector-metrics">
+                  <!-- Injected by js/infrastructure.js -->
+                </div>
+                <div class="inspector-logs" id="inspector-logs">
+                  <!-- Live logs injected by js/infrastructure.js -->
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- --------------------------------------------------------------------------
+         Section H: Interactive DevOps Terminal
+         -------------------------------------------------------------------------- -->
+    <section id="terminal" class="section">
+      <div class="container">
+        <div class="section-header fade-in-up">
+          <div class="section-prompt">
+            <span class="user-host">root@sumith:~$</span>
+            <span class="cmd">/bin/bash --interactive</span>
+          </div>
+          <h2 class="section-title">07. Interactive DevOps Terminal</h2>
+          <p class="section-subtitle">
+            Fully functional simulated Linux terminal. Type commands (e.g. <code>help</code>, <code>neofetch</code>, <code>skills</code>, <code>projects</code>, <code>experience</code>, <code>resume</code>), navigate history with &#8593; / &#8595;, or press Tab for auto-completion.
+          </p>
+        </div>
+
+        <div class="terminal-section-wrapper scanline-effect fade-in-up">
+          <div class="cli-window-header">
+            <div class="terminal-header-left">
+              <div class="boot-window-dots">
+                <span class="dot dot-red"></span>
+                <span class="dot dot-yellow"></span>
+                <span class="dot dot-green"></span>
+              </div>
+              <span class="terminal-title">root@sumith:~ (interactive bash session)</span>
+            </div>
+            <div class="terminal-header-right">
+              <button id="cli-header-clear" style="color: var(--text-muted); font-size: 0.75rem;" title="Clear screen">
+                [Clear Screen]
+              </button>
+            </div>
+          </div>
+
+          <!-- Suggested Quick Command Pills -->
+          <div class="cli-pill-commands">
+            <span class="pill-label">Suggested Commands:</span>
+            <button class="cli-suggest-btn" data-cmd="help">help</button>
+            <button class="cli-suggest-btn" data-cmd="neofetch">neofetch</button>
+            <button class="cli-suggest-btn" data-cmd="skills">skills</button>
+            <button class="cli-suggest-btn" data-cmd="projects">projects</button>
+            <button class="cli-suggest-btn" data-cmd="experience">experience</button>
+            <button class="cli-suggest-btn" data-cmd="education">education</button>
+            <button class="cli-suggest-btn" data-cmd="contact">contact</button>
+            <button class="cli-suggest-btn" data-cmd="resume">resume</button>
+            <button class="cli-suggest-btn" data-cmd="clear">clear</button>
+          </div>
+
+          <div class="cli-screen" id="cli-screen">
+            <div class="cli-history" id="cli-history">
+              <!-- Logs populated by js/terminal.js -->
+            </div>
+
+            <div class="cli-input-line">
+              <span class="cli-prompt-label">root@sumith:~$</span>
+              <input type="text" id="cli-input" class="cli-input-field" autocomplete="off" spellcheck="false" aria-label="Terminal command input" placeholder="Type a command and press Enter (e.g. 'help')...">
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- --------------------------------------------------------------------------
+         Section I: DevOps Troubleshooting Simulator
+         -------------------------------------------------------------------------- -->
+    <section id="troubleshooting" class="section">
+      <div class="container">
+        <div class="section-header fade-in-up">
+          <div class="section-prompt">
+            <span class="user-host">root@sumith:~$</span>
+            <span class="cmd">crictl inspect --incident-id</span>
+          </div>
+          <h2 class="section-title">08. DevOps Troubleshooting Simulator</h2>
+          <p class="section-subtitle">
+            Interactive incident remediation playground. Diagnose simulated production failures (Docker crashes, K8s CrashLoopBackOff, Jenkins socket errors, AWS security group timeouts) and select the correct technical remediation.
+          </p>
+        </div>
+
+        <div class="simulator-box fade-in-up">
+          <!-- Incident Selector Navigation -->
+          <div class="sim-nav-tabs" id="sim-nav-tabs">
+            <!-- Tabs generated by js/troubleshooting.js -->
+          </div>
+
+          <div class="sim-workspace">
+            <!-- Left: Incident Overview & Diagnostics -->
+            <div class="sim-incident-card">
+              <div class="sim-incident-header">
+                <h3 id="sim-title" style="font-size: 1.15rem; color: var(--text-primary);">Docker: Port 80 Allocation Failure</h3>
+                <span id="sim-severity" class="sim-severity-badge critical">critical</span>
+              </div>
+
+              <p id="sim-desc" style="font-size: 0.88rem; color: var(--text-secondary);">
+                Production web-frontend container terminates immediately upon execution with an address binding error.
+              </p>
+
+              <div>
+                <span style="font-size: 0.75rem; color: var(--text-muted); display: block; margin-bottom: 6px;">INCIDENT LOG OUTPUT:</span>
+                <pre class="sim-log-viewer" id="sim-log-viewer"></pre>
+              </div>
+
+              <div class="sim-diag-tools">
+                <span style="font-size: 0.75rem; color: var(--accent-cyan);">RUN DIAGNOSTIC COMMANDS:</span>
+                <div class="diag-btn-group" id="sim-diag-buttons">
+                  <!-- Diagnostic buttons injected by js/troubleshooting.js -->
+                </div>
+              </div>
+            </div>
+
+            <!-- Right: Remediation Options & Feedback -->
+            <div class="sim-solution-section">
+              <div style="display: flex; justify-content: space-between; align-items: center;">
+                <h4 style="font-size: 0.95rem; color: var(--accent-green); margin: 0;">SELECT REMEDIATION ACTION:</h4>
+                <span id="sim-solved-counter" style="font-size: 0.78rem; color: var(--accent-green); font-weight: 600;">Resolved: 0 / 6</span>
+              </div>
+
+              <div class="sim-options-list" id="sim-options-list">
+                <!-- Injected by js/troubleshooting.js -->
+              </div>
+
+              <div class="sim-feedback-box" id="sim-feedback-box">
+                <!-- Feedback injected by js/troubleshooting.js -->
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- --------------------------------------------------------------------------
+         Section J: Education & Academic Qualifications
+         -------------------------------------------------------------------------- -->
+    <section id="certs" class="section">
+      <div class="container">
+        <div class="section-header fade-in-up">
+          <div class="section-prompt">
+            <span class="user-host">root@sumith:~$</span>
+            <span class="cmd">cat /etc/education/qualifications.txt</span>
+          </div>
+          <h2 class="section-title">09. Education &amp; Academic Qualifications</h2>
+          <p class="section-subtitle">
+            Formal university degrees in Computer Applications and Computer Science, establishing a rigorous foundation in software architecture, distributed systems, and computer engineering.
+          </p>
+        </div>
+
+        <div class="certs-grid">
+          <!-- Education 1: Master of Computer Application (MCA) -->
+          <div class="cert-card cert-orange fade-in-up">
+            <div class="cert-icon-wrapper">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 10v6M2 10l10-5 10 5-10 5z"/><path d="M6 12v5c3 3 9 3 12 0v-5"/></svg>
+            </div>
+            <h3 class="cert-title">Master of Computer Application (MCA)</h3>
+            <div class="cert-issuer">Mount Zion College of Engineering, Kadammanitta</div>
+            <p style="font-size: 0.85rem; color: var(--text-secondary); margin-bottom: 12px; line-height: 1.5;">
+              Pathanamthitta, Kerala &bull; Affiliated to APJ Abdul Kalam Technological University (KTU)
+            </p>
+            <p style="font-size: 0.8rem; color: var(--text-muted); margin-bottom: 14px;">
+              Core Focus: Advanced Database Management Systems, Cloud Computing, Distributed Systems, Software Engineering, and Network Security.
+            </p>
+            <div class="cert-date" style="color: var(--accent-orange); font-weight: 700; font-size: 0.88rem;">
+              Cumulative GPA: 7.99 CGPA
+            </div>
+          </div>
+
+          <!-- Education 2: B.Sc Computer Science -->
+          <div class="cert-card fade-in-up">
+            <div class="cert-icon-wrapper">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg>
+            </div>
+            <h3 class="cert-title">B.Sc Computer Science</h3>
+            <div class="cert-issuer">Mannam Memorial NSS College, Konni</div>
+            <p style="font-size: 0.85rem; color: var(--text-secondary); margin-bottom: 12px; line-height: 1.5;">
+              Pathanamthitta, Kerala &bull; Affiliated to Mahatma Gandhi University (MGU)
+            </p>
+            <p style="font-size: 0.8rem; color: var(--text-muted); margin-bottom: 14px;">
+              Core Focus: Data Structures &amp; Algorithms, Computer Architecture, Linux Operating Systems, Computer Networks, and Database Systems.
+            </p>
+            <div class="cert-date" style="color: var(--accent-green); font-weight: 700; font-size: 0.88rem;">
+              Cumulative GPA: 6.88 CGPA
+            </div>
+          </div>
+
+          <!-- Technical Specialization 1: Python & Django -->
+          <div class="cert-card fade-in-up">
+            <div class="cert-icon-wrapper">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg>
+            </div>
+            <h3 class="cert-title">Python &amp; Django Engineering</h3>
+            <div class="cert-issuer">Professional Production Experience</div>
+            <p style="font-size: 0.85rem; color: var(--text-secondary); margin-bottom: 12px; line-height: 1.5;">
+              2.5 Years Professional Web Application Development &bull; Zoople Technologies &amp; NextGen Pro
+            </p>
+            <p style="font-size: 0.8rem; color: var(--text-muted); margin-bottom: 14px;">
+              Specialization: Django Framework, RESTful API design, database schema modeling, ORM optimization, and backend logic integration.
+            </p>
+            <div class="cert-date" style="color: var(--accent-cyan); font-weight: 700; font-size: 0.88rem;">
+              Experience: 2.5 Years Production Code
+            </div>
+          </div>
+
+          <!-- Technical Specialization 2: DevOps & Cloud -->
+          <div class="cert-card cert-orange fade-in-up">
+            <div class="cert-icon-wrapper">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M12 2v4"/><path d="M12 18v4"/><path d="M3.5 7l3.5 2"/><path d="M17 15l3.5 2"/><path d="M3.5 17l3.5-2"/><path d="M17 9l3.5-2"/></svg>
+            </div>
+            <h3 class="cert-title">DevOps &amp; Cloud Infrastructure</h3>
+            <div class="cert-issuer">Applied Infrastructure Practice</div>
+            <p style="font-size: 0.85rem; color: var(--text-secondary); margin-bottom: 12px; line-height: 1.5;">
+              Cloud Automation, GitOps &amp; DevSecOps &bull; Production Workload Deployments
+            </p>
+            <p style="font-size: 0.8rem; color: var(--text-muted); margin-bottom: 14px;">
+              Specialization: Kubernetes cluster orchestration, Terraform &amp; Ansible (IaC), Jenkins &amp; ArgoCD GitOps, and shift-left DevSecOps scanning.
+            </p>
+            <div class="cert-date" style="color: var(--accent-orange); font-weight: 700; font-size: 0.88rem;">
+              Status: Active DevOps Engineer
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- --------------------------------------------------------------------------
+         Section K: Documentation / Technical Notes
+         -------------------------------------------------------------------------- -->
+    <section id="docs" class="section">
+      <div class="container">
+        <div class="section-header fade-in-up">
+          <div class="section-prompt">
+            <span class="user-host">root@sumith:~$</span>
+            <span class="cmd">man devops-runbooks</span>
+          </div>
+          <h2 class="section-title">10. Documentation / Technical Notes</h2>
+          <p class="section-subtitle">
+            Curated technical cheat sheets, operational runbooks, and command guides. Click any topic to open the full documentation reader.
+          </p>
+        </div>
+
+        <div class="docs-grid">
+          <div class="doc-card fade-in-up" data-doc-key="linux-admin">
+            <div>
+              <h3 class="doc-title">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="4 17 10 11 4 5"/><line x1="12" y1="19" x2="20" y2="19"/></svg>
+                Linux Administration
+              </h3>
+              <p class="doc-desc">Systemd services, socket inspection (ss), disk diagnostics (df, du), and process management.</p>
+            </div>
+            <div class="doc-footer"><span>Read Runbook</span> <span>[→]</span></div>
+          </div>
+
+          <div class="doc-card fade-in-up" data-doc-key="docker-commands">
+            <div>
+              <h3 class="doc-title">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="7" width="3" height="3"/><rect x="6" y="7" width="3" height="3"/></svg>
+                Docker Commands &amp; Optimizations
+              </h3>
+              <p class="doc-desc">Multi-stage builds, non-root user hardening, daemon pruning, and container health checks.</p>
+            </div>
+            <div class="doc-footer"><span>Read Runbook</span> <span>[→]</span></div>
+          </div>
+
+          <div class="doc-card fade-in-up" data-doc-key="kubernetes-basics">
+            <div>
+              <h3 class="doc-title">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/></svg>
+                Kubernetes Basics &amp; Probes
+              </h3>
+              <p class="doc-desc">Deployments, Pod liveness/readiness probes, HPA autoscaling, and kubectl debug patterns.</p>
+            </div>
+            <div class="doc-footer"><span>Read Runbook</span> <span>[→]</span></div>
+          </div>
+
+          <div class="doc-card fade-in-up" data-doc-key="jenkins-pipeline">
+            <div>
+              <h3 class="doc-title">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="7" r="4"/></svg>
+                Jenkins Pipeline Best Practices
+              </h3>
+              <p class="doc-desc">Declarative syntax, parallel stages, SonarQube quality gates, and automated post actions.</p>
+            </div>
+            <div class="doc-footer"><span>Read Runbook</span> <span>[→]</span></div>
+          </div>
+
+          <div class="doc-card doc-orange fade-in-up" data-doc-key="aws-deployment">
+            <div>
+              <h3 class="doc-title">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 14.5c2.5 2 7.5 3 11 1"/></svg>
+                AWS Cloud Architecture
+              </h3>
+              <p class="doc-desc">Multi-AZ VPC subnetting, Internet Gateways, NAT Gateways, IAM policies, and AWS CLI automation.</p>
+            </div>
+            <div class="doc-footer"><span>Read Runbook</span> <span>[→]</span></div>
+          </div>
+
+          <div class="doc-card doc-orange fade-in-up" data-doc-key="terraform-fundamentals">
+            <div>
+              <h3 class="doc-title">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="3,3 10,7 10,15 3,11"/></svg>
+                Terraform Fundamentals &amp; State
+              </h3>
+              <p class="doc-desc">S3 remote backend, DynamoDB distributed locking, module variables, and state inspection.</p>
+            </div>
+            <div class="doc-footer"><span>Read Runbook</span> <span>[→]</span></div>
+          </div>
+
+          <div class="doc-card fade-in-up" data-doc-key="prometheus-monitoring">
+            <div>
+              <h3 class="doc-title">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/></svg>
+                Prometheus &amp; Grafana Observability
+              </h3>
+              <p class="doc-desc">PromQL queries, Alertmanager rules, Node Exporter metrics, and service availability SLAs.</p>
+            </div>
+            <div class="doc-footer"><span>Read Runbook</span> <span>[→]</span></div>
+          </div>
+
+          <div class="doc-card fade-in-up" data-doc-key="bash-automation">
+            <div>
+              <h3 class="doc-title">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="16 18 22 12 16 6"/></svg>
+                Defensive Bash Automation
+              </h3>
+              <p class="doc-desc">Strict mode (set -euo pipefail), trap error handlers, logging functions, and backup scripts.</p>
+            </div>
+            <div class="doc-footer"><span>Read Runbook</span> <span>[→]</span></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- --------------------------------------------------------------------------
+         Section L: Contact Section
+         -------------------------------------------------------------------------- -->
+    <section id="contact" class="section">
+      <div class="container">
+        <div class="section-header fade-in-up">
+          <div class="section-prompt">
+            <span class="user-host">root@sumith:~$</span>
+            <span class="cmd">./contact.sh --recipient sumith</span>
+          </div>
+          <h2 class="section-title">11. Contact &amp; Connect</h2>
+          <p class="section-subtitle">
+            Let's build something reliable together. Reach out for cloud migrations, CI/CD pipeline automation, Kubernetes architecture, or infrastructure audits.
+          </p>
+        </div>
+
+        <div class="contact-wrapper fade-in-up">
+          <div class="contact-terminal-banner">
+            <span class="prompt">root@sumith:~$</span>
+            <span class="typed-text">echo $COMMUNICATION_CHANNELS</span>
+            <p style="margin-top: 10px; color: var(--accent-green); font-size: 0.95rem;">
+              "Direct communication channels are open. Response turnaround typically within 24 hours."
+            </p>
+          </div>
+
+          <div class="contact-cards-grid">
+            <!-- Email Method -->
+            <div class="contact-method-card">
+              <div class="contact-method-left">
+                <div class="contact-icon">
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+                </div>
+                <div>
+                  <span class="contact-label">PRIMARY EMAIL:</span>
+                  <div class="contact-val">sumithksam.devops@example.com</div>
+                </div>
+              </div>
+              <button id="copy-email-btn" class="copy-btn">Copy Address</button>
+            </div>
+
+            <!-- LinkedIn Method -->
+            <div class="contact-method-card">
+              <div class="contact-method-left">
+                <div class="contact-icon">
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/></svg>
+                </div>
+                <div>
+                  <span class="contact-label">PROFESSIONAL NETWORK:</span>
+                  <div class="contact-val">linkedin.com/in/sumithksam</div>
+                </div>
+              </div>
+              <a href="https://linkedin.com/in/sumithksam" target="_blank" rel="noopener noreferrer" class="copy-btn">Open Profile [→]</a>
+            </div>
+
+            <!-- GitHub Method -->
+            <div class="contact-method-card">
+              <div class="contact-method-left">
+                <div class="contact-icon">
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"/></svg>
+                </div>
+                <div>
+                  <span class="contact-label">CODE REPOSITORY:</span>
+                  <div class="contact-val">github.com/sumithksam</div>
+                </div>
+              </div>
+              <a href="https://github.com/sumithksam" target="_blank" rel="noopener noreferrer" class="copy-btn">Open GitHub [→]</a>
+            </div>
+
+            <!-- Location -->
+            <div class="contact-method-card">
+              <div class="contact-method-left">
+                <div class="contact-icon">
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+                </div>
+                <div>
+                  <span class="contact-label">LOCATION &amp; TIMEZONE:</span>
+                  <div class="contact-val">Kerala, India (IST UTC+5:30) / Open to Remote</div>
+                </div>
+              </div>
+              <span class="status-pill active" style="font-size: 0.72rem; padding: 4px 10px; border-radius: var(--radius-xs); background: var(--accent-green-dim); color: var(--accent-green); border: 1px solid rgba(0, 255, 102, 0.3);">● Available</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- --------------------------------------------------------------------------
+       Site Footer
+       -------------------------------------------------------------------------- -->
+  <footer class="site-footer">
+    <div class="container footer-content">
+      <div>
+        <span class="footer-brand">Sumith K Sam</span>
+        <span> | DevOps Engineer &bull; Cloud &amp; Infrastructure Automation</span>
+      </div>
+      <div>
+        <span>Environment: </span>
+        <span style="color: var(--accent-green);">Linux 6.8.0-devops (x86_64)</span>
+        <span> &bull; Status: </span>
+        <span style="color: var(--accent-cyan);">All Systems Nominal [99.999% SLA]</span>
+      </div>
+      <div>
+        <span>Built with semantic HTML5, CSS3 &amp; Vanilla JavaScript.</span>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Floating Back to Top Button -->
+  <button id="back-to-top" aria-label="Back to top of page" title="Back to top">
+    <span>&#9650;</span>
+  </button>
+
+  <!-- --------------------------------------------------------------------------
+       Project Details Modal
+       -------------------------------------------------------------------------- -->
+  <div id="project-modal" class="modal-overlay" role="dialog" aria-modal="true" aria-labelledby="project-modal-title">
+    <div class="modal-window">
+      <div class="modal-header">
+        <h3 id="project-modal-title" class="modal-title">Project Details</h3>
+        <button id="project-modal-close" class="modal-close-btn" aria-label="Close modal">&#10005;</button>
+      </div>
+      <div id="project-modal-body" class="modal-body">
+        <!-- Content injected dynamically by js/projects.js -->
+      </div>
+    </div>
+  </div>
+
+  <!-- --------------------------------------------------------------------------
+       Documentation Runbook Modal
+       -------------------------------------------------------------------------- -->
+  <div id="doc-modal" class="modal-overlay" role="dialog" aria-modal="true" aria-labelledby="doc-modal-title">
+    <div class="modal-window">
+      <div class="modal-header">
+        <h3 id="doc-modal-title" class="modal-title">Documentation Runbook</h3>
+        <button id="doc-modal-close" class="modal-close-btn" aria-label="Close modal">&#10005;</button>
+      </div>
+      <div id="doc-modal-body" class="modal-body">
+        <!-- Content injected dynamically by js/main.js -->
+      </div>
+    </div>
+  </div>
+
+  <!-- Modular Scripts Execution -->
+  <script src="js/animations.js"></script>
+  <script src="js/globe.js"></script>
+  <script src="js/projects.js"></script>
+  <script src="js/infrastructure.js"></script>
+  <script src="js/troubleshooting.js"></script>
+  <script src="js/terminal.js"></script>
+  <script src="js/main.js"></script>
+</body>
+</html>
+
